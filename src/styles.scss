@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'MyFont';
+  src: url('assets/Fonts/Nebula.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
+html, body { height: 100%; }
+body { margin: 0;
+  font-family: 'Roboto', sans-serif;
+} 
+
+
+:root {
+ 
+    --kendo-color-primary: #209474 !important;
+    --kendo-color-primary-on-surface :  #209474 !important;
+    --kendo-color-primary-hover: #209474  }
+
+

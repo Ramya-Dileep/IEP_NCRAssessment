@@ -1,0 +1,53 @@
+<div class="loginBackground">
+  <div class="loginContent">
+    <img src="assets/Logos/Logo.png" alt="Logo" class="login-logo" />
+    <h5>Sign In</h5>
+    <form (ngSubmit)="onLogin()" name="loginForm" [formGroup]="loginForm">
+     
+      <div>
+         <label class = "UserLabel">
+          SSO ID <span class="required-asterisk">*</span>
+        </label>
+        <input class="UserInput" formControlName="userName" placeholder="4-3-1 SSO" />
+        <div class="errormsg">
+          @if (loginForm.get('userName')?.invalid && loginForm.get('userName')?.touched) {
+            @if (loginForm.get('userName')?.errors?.['required']) {
+              <span>SSO ID is required.</span>
+            }
+          }
+        </div>
+      </div>
+
+      
+      <div>
+        <label class = "UserLabel">
+      Password  <span class="required-asterisk">*</span>
+        </label>
+        <input class="UserInput" formControlName="password" type="password" placeholder="PASSWORD" maxlength="12" />
+        <div class="errormsg">
+          @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+            @if (loginForm.get('password')?.errors?.['required']) {
+              <span>Password is required.</span>
+            }
+          }
+        </div>
+      </div>
+
+    <div class="checkboxContainer">
+      <input type="checkbox" id="rememberMe" formControlName="rememberMe" />
+      <label for="rememberMe">Remember me</label>
+    </div>
+
+    <div *ngIf="invalidCredentials" class="errormsg">
+      Invalid credentials. Please try again.
+    </div>
+
+      <!-- <button class="login" type="submit" [disabled]="loginForm.invalid">LOGIN</button> -->
+
+      <button class="login" type="submit" [disabled]="loginForm.invalid || loading">
+        Login 
+        </button>
+
+    </form>
+  </div>
+</div>

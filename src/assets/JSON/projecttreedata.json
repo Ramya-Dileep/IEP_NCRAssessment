@@ -1,0 +1,191 @@
+[
+  {
+    "id": "p1",
+    "text": "Phoenix GTG",
+    "isMyContracts": "True",
+    "isFavourite": "False",
+    "children": [
+      {
+        "id": "t1",
+        "text": "Phoenix-1",
+        "children": [
+          { "id": "PHX-1001", "text": "PHX-1001" },
+          { "id": "PHX-1002", "text": "PHX-1002" }
+        ]
+      },
+      {
+        "id": "t2",
+        "text": "Phoenix-2",
+        "children": [
+          { "id": "PHX-1003", "text": "PHX-1003" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "p2",
+    "text": "Orion Gas Plant",
+    "isMyContracts": "False",
+    "isFavourite": "True",
+    "children": [
+      {
+        "id": "t3",
+        "text": "Orion-A",
+        "children": [
+          { "id": "ORN-2001", "text": "ORN-2001" }
+        ]
+      },
+      {
+        "id": "t4",
+        "text": "Orion-B",
+        "children": [
+          { "id": "ORN-2002", "text": "ORN-2002" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "p3",
+    "text": "Nova Hydrogen GTG",
+    "isMyContracts": "True",
+    "isFavourite": "True",
+    "children": [
+      {
+        "id": "t5",
+        "text": "Nova-T1",
+        "children": [
+          { "id": "NVA-3001", "text": "NVA-3001" },
+          { "id": "NVA-3002", "text": "NVA-3002" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "p4",
+    "text": "Vega LNG Project",
+    "isMyContracts": "False",
+    "isFavourite": "False",
+    "children": [
+      {
+        "id": "t6",
+        "text": "Vega-1",
+        "children": [
+          { "id": "VGA-4001", "text": "VGA-4001" }
+        ]
+      },
+      {
+        "id": "t7",
+        "text": "Vega-2",
+        "children": [
+          { "id": "VGA-4002", "text": "VGA-4002" },
+          { "id": "VGA-4003", "text": "VGA-4003" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "p5",
+    "text": "Solar Fusion Plant",
+    "isMyContracts": "True",
+    "isFavourite": "True",
+    "children": [
+      {
+        "id": "t8",
+        "text": "Solar-A",
+        "children": [
+          { "id": "SOL-5001", "text": "SOL-5001" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "p6",
+    "text": "Lunar Refinery",
+    "isMyContracts": "False",
+    "isFavourite": "False",
+    "children": [
+      {
+        "id": "t9",
+        "text": "Lunar-1",
+        "children": [
+          { "id": "LUN-6001", "text": "LUN-6001" }
+        ]
+      },
+      {
+        "id": "t10",
+        "text": "Lunar-2",
+        "children": [
+          { "id": "LUN-6002", "text": "LUN-6002" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "p7",
+    "text": "Mars Power Station",
+    "isMyContracts": "True",
+    "isFavourite": "False",
+    "children": [
+      {
+        "id": "t11",
+        "text": "Mars-T1",
+        "children": [
+          { "id": "MRS-7001", "text": "MRS-7001" },
+          { "id": "MRS-7002", "text": "MRS-7002" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "p8",
+    "text": "Jupiter Compression Unit",
+    "isMyContracts": "False",
+    "isFavourite": "True",
+    "children": [
+      {
+        "id": "t12",
+        "text": "Jupiter-C1",
+        "children": [
+          { "id": "JPT-8001", "text": "JPT-8001" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "p9",
+    "text": "Titan Recovery Facility",
+    "isMyContracts": "True",
+    "isFavourite": "True",
+    "children": [
+      {
+        "id": "t13",
+        "text": "Titan-R1",
+        "children": [
+          { "id": "TTN-9001", "text": "TTN-9001" }
+        ]
+      },
+      {
+        "id": "t14",
+        "text": "Titan-R2",
+        "children": [
+          { "id": "TTN-9002", "text": "TTN-9002" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "p10",
+    "text": "Neptune Carbon Capture",
+    "isMyContracts": "False",
+    "isFavourite": "False",
+    "children": [
+      {
+        "id": "t15",
+        "text": "Neptune-1",
+        "children": [
+          { "id": "NPT-10001", "text": "NPT-10001" }
+        ]
+      }
+    ]
+  }
+]

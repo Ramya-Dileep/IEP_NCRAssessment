@@ -1,0 +1,225 @@
+.title {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 500;
+  height: 45px;
+  width: 300px;
+
+  .menu-icon {
+    font-size: 32px;
+    cursor: pointer;
+    margin-right: 12px;
+    align-items: center;
+    color:white;
+    padding-left: 10px;
+  }
+
+  .logo {
+    object-fit: contain;
+    padding-left: 20px;
+  }
+
+  .divider {
+    margin-right: 10px;
+    margin-left: 10px;
+    color: #9BADAA;
+    font-size: 24px;;
+  }
+
+  .tool-name {
+    color: white;
+    font-size: 16px;
+    margin-top: 3px;
+    align-items: center;
+    font-weight: bold;
+  }
+}
+
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-left: auto;
+  font-size: 14px;
+  
+
+  .nav-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 14px;
+    color: #768E8B;
+    cursor: pointer;
+    padding: 6px 12px;
+    transition: background 0.2s;
+    // font-family: 'MyFont';
+    font-weight: bold;
+
+  }
+   .icon {
+    font-size: 24px;
+    cursor: pointer;
+    color: white; 
+
+    &:hover {
+      color: #ddd;
+    }
+  }
+}
+
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;  
+    background-color:#05322B;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+    flex: 1;
+  }
+
+  .profile-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem;
+    background: #fff;
+    border-radius: 4px;
+    border:none;
+    font-family: calibri;
+  }
+
+  
+  .profile-button .material-icons{
+    color: grey;
+}
+
+.profile {
+    position: relative;
+    padding: 0 10px;
+  }
+ 
+ .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid white;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  .user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+  .profile {
+  position: relative;
+  cursor: pointer;
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+
+  .dropdown {
+  position: absolute;
+  right: 0;
+  top: 45px;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 14px;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  z-index: 999;
+
+
+  .dropdown-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 10px auto;
+  }
+
+  .admin-info {
+    text-align: center;
+    margin-bottom: 10px;
+
+    .admin-name {
+      font-weight: bold;
+      color: black;
+      font-size: 14px;
+    }
+
+    .admin-email {
+      font-size: 12px;
+      color: #666;
+    }
+  }
+
+  .divider {
+    height: 1px;
+    background-color: #ddd;
+    margin: 10px 0;
+    width: 100%;
+  }
+
+ .dropdown-btn,
+.logout-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; // space between left icon+label and right chevron
+  padding: 8px 10px;
+  margin-top: 6px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  background-color: white;
+  color: black;
+  font-weight: 500;
+
+  .material-icons {
+    font-size: 18px;
+    color: #555;
+  }
+
+  .label {
+    flex: 1;
+    margin-left: 10px;
+    text-align: left;
+  }
+
+  .chevron {
+    color: #999;
+    font-size: 18px;
+  }
+
+  // &:hover {
+  //   background-color: #e0e0e0;
+  // }
+}
+
+  // .logout-btn {
+  //   font-weight: 500;
+  // }
+}
+
+}
+
+ 
+
+  

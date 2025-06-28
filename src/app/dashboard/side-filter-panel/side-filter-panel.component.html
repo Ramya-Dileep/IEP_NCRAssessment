@@ -1,0 +1,194 @@
+<div class="sidebar" [class.collapsed]="isCollapsed">
+  <div class="header">
+    @if (!isCollapsed) {
+      <h6>Filter Contracts</h6>
+      <span class="material-symbols-outlined">
+        more_horiz
+        </span>
+    }
+    <button class="toggle-btn" (click)="collapseSidebar()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+
+  @if (!isCollapsed) {
+    <div class="contract-buttons">
+      <button
+        class="contract-tab"
+        [class.active]="selectedTab === 'my'"
+        (click)="setTab('my')"
+      >
+        My Contracts
+      </button>
+      <button
+        class="contract-tab"
+        [class.active]="selectedTab === 'all'"
+        (click)="setTab('all')"
+      >
+        All Contracts
+      </button>
+      <button
+        class="contract-tab"
+        [class.active]="selectedTab === 'fav'"
+        (click)="setTab('fav')"
+      >
+        Favourites
+      </button>
+    </div>
+
+    <!-- <div class="searchjob">
+      <input
+        type="text"
+        [formControl]="searchControl"
+        placeholder="Search project or job number"
+        class="search-input"
+      />
+    </div> -->
+
+     <div class="search-box">
+       <input
+        type="text"
+        [formControl]="searchControl"
+        placeholder="Search job number or contract name"
+        class="search-input"
+        [title]="searchControl.value || 'Search job number or contract name'"
+      />
+        <span class="material-symbols-outlined search-icon">search</span>
+      </div>
+
+   <div class="advsearchdiv" *ngIf="authService.isAdmin()">
+  <button class="advanceSearch" (click)="isAdvancedSearchVisible = !isAdvancedSearchVisible">
+    <span class="material-symbols-outlined">
+      {{ isAdvancedSearchVisible ? 'expand_less' : 'chevron_right' }}
+    </span>
+    Advanced Search
+  </button>
+
+  <!-- Multiselect Block (only visible when toggled) -->
+  <div class="advanced-search-options" *ngIf="isAdvancedSearchVisible">
+ <div class="advanced-filter-group" *ngFor="let item of advanceFilterKeys; trackBy: trackByFn">
+  <label class="filter-label">{{ item | titlecase }}</label>
+
+  <div class="multiselect-container">
+  <kendo-multiselect
+    #multiSelect
+    [data]="advanceFilterOptions[item]"
+    [(ngModel)]="advanceSelectedValues[item]"
+    [valuePrimitive]="true"
+    [autoClose]="false"
+    [popupSettings]="{ appendTo: 'component', popupClass: 'custom-multiselect-popup' }"
+    [allowCustom]="false"
+    [checkboxes]="true"
+    class="custom-multiselect"
+  >
+    <ng-template kendoMultiSelectValueTemplate>
+      <div class="selected-values-wrapper" (click)="multiSelect.togglePopup(true)">
+        <!-- Show comma-separated values -->
+       <span class="comma-values">
+  {{
+    advanceSelectedValues[item].length
+      ? advanceSelectedValues[item].join(', ')
+      : 'Select ' + item
+  }}
+</span>
+
+
+        <!-- Dropdown icon -->
+        <span class="material-icons dropdown-icon">
+          arrow_drop_down
+        </span>
+
+        <!-- Remove icon -->
+        <span
+          *ngIf="advanceSelectedValues[item]?.length"
+          class="material-icons clear-icon"
+          (click)="clearSelection(item); $event.stopPropagation()"
+        >
+          close
+        </span>
+      </div>
+    </ng-template>
+  </kendo-multiselect>
+</div>
+
+</div>
+
+  </div>
+</div>
+
+
+    <div class="nav-items">
+      <div class="results-summary">
+        Results: {{ filteredProjects.length }} contract{{ filteredProjects.length !== 1 ? 's' : '' }}
+      </div>
+
+      <div *ngIf="filteredProjects.length === 0" class="no-data-message">
+        No data found!
+      </div>
+
+         <!-- <kendo-treeview
+    [nodes]="data"
+    [kendoTreeViewCheckable]="{ mode: 'multiple', checkChildren: true }"
+    textField="text"
+    [children]="children"
+    [checkedKeys]="checkedkeys"
+    (checkedKeysChange)="onCheckedKeysChange($event)"
+    kendoTreeViewExpandable
+    [hasChildren]="hasChildren"
+    [checkBy]="'id'"
+    [expandBy]="'id'"
+    [loadOnDemand]="false"
+>
+</kendo-treeview> -->
+
+<div class="select-all-container" *ngIf="filteredProjects.length !== 0">
+  <span class="material-symbols-outlined"  (click)="toggleTreeExpand()">
+{{ isTreeExpanded ? 'expand_more' : 'chevron_right' }}    </span>
+  <input
+    type="checkbox"
+    [checked]="isAllSelected"
+    (change)="toggleSelectAll($event)"
+    id="selectAll"
+  />
+  <label for="selectAll">Current Projects</label>
+</div>
+
+    <kendo-treeview
+    *ngIf="isTreeExpanded"
+    [nodes]="filteredProjects"
+    [kendoTreeViewCheckable]="{ mode: 'multiple', checkChildren: true }"
+    textField="text"
+    [children]="children"
+    [(checkedKeys)]="selectedJobIds"
+    (checkedKeysChange)="onCheckedKeysChange($event)"
+    kendoTreeViewExpandable
+    [hasChildren]="hasChildren"
+    [checkBy]="'id'"
+    [expandBy]="'id'"
+    [loadOnDemand]="false"
+>
+<ng-template kendoTreeViewNodeTemplate let-dataItem let-hasChildren="hasChildren">
+  <div class="tree-node">
+    <span class="node-text">{{ dataItem.text }}</span>
+    <span
+      *ngIf="dataItem.children?.[0]?.children"
+      class="material-icons star-icon"
+      [ngClass]="{
+        'favourite': favourites.has(dataItem.id),
+        'not-favourite': !favourites.has(dataItem.id)
+      }"
+      (click)="toggleFavourite(dataItem)"
+      title="Toggle Favourite"
+    >
+      star
+    </span>
+  </div>
+</ng-template>
+
+
+
+</kendo-treeview>
+
+    </div>
+  }
+</div>

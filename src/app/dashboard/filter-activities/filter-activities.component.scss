@@ -1,0 +1,220 @@
+
+.kendo-expandable-panel {
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 12px;
+  overflow: hidden;
+
+  .k-panel-header {
+    background-color: #f5f5f5;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: black;
+    border-top: 1px solid #ccc;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+
+  .title {
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .nav-items span {
+  line-height: 30px;
+}
+
+
+  .nav-items {
+     display: flex;               
+     align-items: center;   
+
+     .clrfilter {
+    color: #02A783;
+    font-size: 12px;
+    cursor: pointer;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;     
+    height: 30px;
+  }
+
+    .material-symbols-outlined {
+      display: flex;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 20px; 
+      width: 30px;     
+      height: 30px;
+      align-items: baseline;
+    }
+  }
+
+  .k-panel-content {
+    padding: 8px;
+    background-color: #fff;
+
+    .dropdown-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 5px;
+      justify-content:start;
+
+      .dropdown-item {
+        display: flex;
+        flex-direction: column;
+        height: 50px;
+        flex: 1 1 120px; // allow flex growth/shrink
+        min-width: 80px;
+        max-width: 120px;
+
+        .dropdown-label {
+          font-weight: 500;
+          margin-bottom: 6px;
+          font-size: 12px;
+          color: #333;
+        }
+      }
+    }
+
+    .filterbtn {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 10px 5px;
+
+      .btndisplay {
+        background-color: #CED7D4;
+        color: #595959;
+        border: none;
+        min-width: 30px;
+        max-width: fit-content;
+        border-radius: 16px;
+        border: 1px solid #ccc;
+        font-size: 13px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &.active-tab {
+          border-bottom-color: #199473;
+          background-color: #199473;
+          color: #fff;
+        }
+      }
+    }
+
+    .fwbtn {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 10px 5px;
+      justify-content: space-between;
+
+      .fwbtndisplay{
+        min-width: 25px;
+        font-size: 14px;
+        .material-symbols-outlined{
+          font-size: 18px;
+        }
+      }
+
+      .two-line-display {
+        padding: 6px 12px;
+        background-color: #FEFBE6;
+        color: #595959;
+        border: none;
+        width: 23%;
+        border-radius: 4px;
+        border: 1px solid #A0A0A0;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        .line1 {
+          font-weight: bold;
+          font-size: 12px;
+          text-align: left;
+        }
+
+        .line2 {
+          font-weight: normal;
+          font-size: 12px;
+          color: #666;
+        }
+
+        &.active-tab {
+          background-color: #FEEAEE;
+          color: black;
+          border: 1px solid #A0A0A0;
+        }
+      }
+    }
+  }
+}
+
+ ::ng-deep .k-dropdownlist {
+  .k-input {
+    border-color: #02a783;
+    color: #02a783;
+  }
+
+  .k-dropdown-wrap.k-focus,
+  .k-dropdown-wrap.k-state-focused {
+    border-color: #02a783;
+    box-shadow: 0 0 0 2px rgba(2, 167, 131, 0.25);
+  }
+
+  .k-selected {
+    color: #02a783;
+    font-weight: 500;
+
+    .k-focus{
+        color: #02a783 !important;
+    }
+  }
+.k-list-item.k-focus,
+.k-list-item:hover {
+  background-color: #d4efe5 !important;
+  color: #02a783 !important;
+}
+
+  .k-list-item.k-selected {
+  background-color: #e6f4ea !important;
+  color: #02a783 !important;
+}
+
+
+}
+
+
+::ng-deep .kendo-expandable-panel .k-panel-header{
+
+    height: 30px !important;
+
+}
+
+::ng-deep .k-picker-solid {
+    border-color:#DFE3E2;
+    color: var(--kendo-color-on-base, #3d3d3d);
+    background-color: white;
+}
+
+::ng-deep .k-dropdown:hover .k-input {
+  background-color:  #02a783 !important;
+  color: inherit !important;
+  box-shadow: none !important;
+}
+
+.k-panel-content {
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+}
+
+.k-panel-content.collapsed {
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
+  pointer-events: none;
+}

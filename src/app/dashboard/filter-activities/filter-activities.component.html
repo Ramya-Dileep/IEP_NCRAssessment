@@ -1,0 +1,43 @@
+  <div class="kendo-expandable-panel">
+    <div class="k-panel-header">
+      <span class="title">{{ title }}</span>
+
+      <div class="nav-items">
+
+      <span class="clrfilter" (click) = "clearFilters()">
+        Clear Filter
+      </span>
+  
+    <span class="material-symbols-outlined">
+        more_horiz
+        </span>
+
+      <span class="material-symbols-outlined"  (click)="togglePanel()">
+        {{ userExpanded() ?  'keyboard_arrow_down' : 'keyboard_arrow_up' }}
+      </span>
+    </div>
+    </div>
+  
+    @if (userExpanded()) {
+      <div class="k-panel-content">
+
+        <div class="dropdown-wrapper">
+  <div *ngFor="let filter of filters" class="dropdown-item">
+    <label class="dropdown-label">{{ filter.label }}</label>
+    <kendo-dropdownlist
+      [data]="filter.data"
+      [formControl]="filter.control"
+      [textField]="'text'"
+      [valueField]="'value'"
+      [popupSettings]="{ appendTo: 'root' }"
+      (valueChange)="onSelectionChnage($event,'data')"
+ 
+      >
+    </kendo-dropdownlist>
+  </div>
+</div>
+         
+        </div>
+    }
+  </div>
+  

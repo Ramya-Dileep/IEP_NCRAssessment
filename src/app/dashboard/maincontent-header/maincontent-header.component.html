@@ -1,0 +1,184 @@
+<div class="maincontentheader">
+
+  @if (!fullscreenMode) {
+    <div class="header">
+      <div class="module">
+        <span class="module-name">{{ moduleName }}</span>
+      </div>
+
+      <div class="nav-actions">
+        <div class="datedisplay k-text k-font-medium">
+           <a
+            href="https://example.com/history"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="upload-icon-link"
+            >
+           <img
+           src="assets/Logos/Kaizen-btn 1.png"
+           alt="Upload History"
+           class="upload-icon"
+          />
+  </a>
+          <span class="label">Last Uploaded :</span>
+          <span class="date">{{ today | date: 'dd MMM yyyy' }}</span>
+        </div>
+        <span class="divider">|</span>
+        <span class="label">YTD</span>
+        <div class="percentage-circle">
+          <div class="circle" [style.--percentage]="percentage">
+            <span class="value">{{ percentage }}%</span>
+          </div>
+        </div>
+        <button kendoButton class="nav-btn" *ngIf="authService.isAdmin()">Do vs Buy</button>
+      </div>
+    </div>
+
+<!-- <kendo-tabstrip>
+  <kendo-tabstrip-tab title="NCR"  [selected]="true">
+    <ng-template kendoTabContent>
+        @if (!fullscreenMode)
+    {
+   
+    <div class="projectName" [title]="ProjectName">
+      <span class="projectText">{{ ProjectName }}</span>
+    </div>
+
+    <div class="reassign-alert" *ngIf="hasReassignRequests  && authService.isAdmin()">
+      <div class="alert-text">
+        <span class="material-symbols-outlined">notification_important</span>
+        You have received <strong>3 primary resource re-assignment requests</strong>
+        <a class="viewrequest" href="#">View requests</a>
+      </div>
+      <button class="close-btn" (click)="hasReassignRequests = false">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+  }
+
+    <app-filter-activities title="Filter Activities"  [collapsed]="fullscreenMode"></app-filter-activities>
+
+
+    <div class="scrollable-content">
+      <app-activities-tabulardata
+        [fullscreenMode]="fullscreenMode"
+        (fullscreenToggled)="toggleFullscreen()"
+        [SelectedContracts] = "SelectedContracts"
+      ></app-activities-tabulardata>
+    </div>
+    </ng-template>
+  </kendo-tabstrip-tab>
+<kendo-tabstrip-tab title="NCM" >
+    <ng-template kendoTabContent>
+      <p>This is the NCM tab content.</p>
+    </ng-template>
+  </kendo-tabstrip-tab>
+ 
+  <kendo-tabstrip-tab title="ECN">
+    <ng-template kendoTabContent>
+      <p>This is the ECN tab content.</p>
+    </ng-template>
+  </kendo-tabstrip-tab>
+
+  <kendo-tabstrip-tab title="ECR">
+    <ng-template kendoTabContent>
+      <p>This is the ECR tab content.</p>
+    </ng-template>
+  </kendo-tabstrip-tab>
+
+  <kendo-tabstrip-tab title="COQ">
+    <ng-template kendoTabContent>
+      <p>This is the COQ tab content.</p>
+    </ng-template>
+  </kendo-tabstrip-tab>
+
+  <kendo-tabstrip-tab title="CCM">
+    <ng-template kendoTabContent>
+      <p>This is the CCM tab content.</p>
+    </ng-template>
+  </kendo-tabstrip-tab>
+
+   <kendo-tabstrip-tab title="OTRDR">
+    <ng-template kendoTabContent>
+      <p>This is the OTRDR tab content.</p>
+    </ng-template>
+  </kendo-tabstrip-tab>
+
+  <kendo-tabstrip-tab title="FMEA">
+    <ng-template kendoTabContent>
+      <p>This is the FMEA tab content.</p>
+    </ng-template>
+  </kendo-tabstrip-tab>
+
+  <kendo-tabstrip-tab title="RCA-NCA-CAPA">
+    <ng-template kendoTabContent>
+      <p>This is the RCA-NCA-CAPA tab content.</p>
+    </ng-template>
+  </kendo-tabstrip-tab>
+
+  <kendo-tabstrip-tab title="Product Quality">
+    <ng-template kendoTabContent>
+      <p>This is the Product Quality tab content.</p>
+    </ng-template>
+  </kendo-tabstrip-tab>
+
+  <kendo-tabstrip-tab title="Product Safety">
+    <ng-template kendoTabContent>
+      <p>This is the Product Safety tab content.</p>
+    </ng-template>
+  </kendo-tabstrip-tab>
+</kendo-tabstrip > -->
+
+    <div class="kendo-tab-buttons">
+      @for (tab of tabButtons; track $index) {
+        <button
+          kendoButton
+          [ngClass]="{ 'active-tab': activeTab === tab.value }"
+          (click)="setActiveTab(tab.value)">
+          {{ tab.label }}
+        </button>
+      }
+    </div>
+  }
+
+  @if (activeTab === 'NCR') {
+
+    @if (!fullscreenMode)
+    {
+    <!-- <div class="projectName" [title]="ProjectName">
+      {{ ProjectName }}
+    </div> -->
+
+    <div class="projectName" [title]="ProjectName">
+      <span class="projectText">{{ ProjectName }}</span>
+    </div>
+
+    <div class="reassign-alert" *ngIf="hasReassignRequests  && authService.isAdmin()">
+      <div class="alert-text">
+        <span class="material-symbols-outlined">notification_important</span>
+        You have received <strong>3 primary resource re-assignment requests</strong>
+        <a class="viewrequest" href="#">View requests</a>
+      </div>
+      <button class="close-btn" (click)="hasReassignRequests = false">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+  }
+
+    <app-filter-activities title="Filter Activities"  [collapsed]="fullscreenMode"></app-filter-activities>
+
+
+    <div class="scrollable-content">
+      <app-activities-tabulardata
+        [fullscreenMode]="fullscreenMode"
+        (fullscreenToggled)="toggleFullscreen()"
+        [SelectedContracts] = "SelectedContracts"
+      ></app-activities-tabulardata>
+    </div>
+  } @else {
+    <div class="coming-soon">
+      <p  class=""> {{activeTab}} Coming Soon...</p>
+    </div>
+  }
+
+</div>

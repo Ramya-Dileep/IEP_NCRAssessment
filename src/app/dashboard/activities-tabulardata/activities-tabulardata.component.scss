@@ -1,0 +1,319 @@
+.tabulardiv{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 12px;
+    overflow: hidden;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        background-color: #f5f5f5;
+        font-weight: bold;
+        height: 30px;
+        flex-shrink: 0;
+        padding: 8px 16px;
+        display: flex;
+        align-items: center;
+        color: black;
+        border-top: 1px solid #ccc; 
+        border-bottom: 1px solid #ccc;
+        border-radius: 0;
+
+        .results-summary {
+            font-size: 12px;
+            font-weight: 500;
+            color: #05322b;
+            margin-bottom: 10px;
+            align-items: center;
+            text-align: center;
+            margin-top: 12px;
+            margin-left: 30px;
+          } 
+          
+          .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: auto;
+            font-size: 14px;
+            
+          
+            .nav-btn {
+                background-color: transparent;
+                border: none;
+                font-size: 16px;
+                color: #333;
+                cursor: pointer;
+                padding: 6px 12px;
+                // font-family: 'MyFont', sans-serif;
+                font-weight: bold;
+                transition: background 0.2s;
+            }
+            // .search-input {
+            //     flex: 1; /* auto-grow */
+            //     padding: 6px 10px;
+            //     align-items: center;
+            //     margin-bottom: 10px;
+            //     margin-left: 20px;
+            //     font-size: 14px;
+            //     margin-top: 10px;
+            //     border-radius: 16px;
+            //     border: 1px solid #ccc;
+            //     transition: border-color 0.2s ease;
+            //     height: 30px;
+            //     &:focus {
+            //       border-color: #999; 
+            //       box-shadow: 0 0 0 1px #ccc;
+            //     }
+            //   }
+            .search-box {
+              display: flex;
+              align-items: center;
+              border: 1px solid #ccc;
+              border-radius: 16px;
+              padding: 0 10px;
+              height: 30px;
+              margin-right: 5px;
+              max-width: 250px;
+              background-color: #fff;
+
+              &:focus-within {
+                border-color: #999;
+                box-shadow: 0 0 0 1px #ccc;
+              }
+            }
+
+          .search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            padding: 6px 8px;
+            background: transparent;
+          }
+
+          .search-icon {
+            color: black;
+            font-size: 20px;
+            cursor: default;
+          }
+
+
+             .icon {
+              font-size: 24px;
+              cursor: pointer;
+              color: white; 
+          
+              &:hover {
+                color: #ddd;
+              }
+            }
+          }
+          
+  
+      }     
+      
+      kendo-grid {
+        width: 100%;
+        overflow: hidden;
+        overflow-x: auto; 
+        overflow-y: auto;
+       
+      }
+
+    .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
+        font-size: 18px;
+        color: #212121;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+
+    .tabulardiv:-webkit-full-screen {
+        width: 100vw;
+        height: 100vh;
+      }
+      
+      .tabulardiv:fullscreen {
+        width: 100vw;
+        height: 100vh;
+      }
+
+
+.header-with-menu {
+  position: relative; /* anchor point for dropdown */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+    .material-symbols-outlined {
+  font-size: 18px; // or 18px if you want slightly smaller
+  line-height: 1;
+  color: grey;
+}
+}
+
+.filter-icon {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  width: 28px;
+
+  .material-symbols-outlined {
+  font-size: 18px; // or 18px if you want slightly smaller
+  line-height: 1;
+  color: grey;
+}
+}
+
+
+.filter-icon:hover {
+  color: #147d64; /* your theme green */
+}
+
+.filter-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1000;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 200px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+.distinct-values label {
+  margin-bottom: 5px;
+  white-space: nowrap;
+}
+
+.filter-menu-popup {
+  padding: 12px;
+  min-width: 25%;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-search-input {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+  width: 90%;
+}
+
+.distinct-values {
+  max-height: 150px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+    input[type='checkbox'] {
+    margin-right: 8px;
+    accent-color:#199473;
+  }
+}
+
+
+.export-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  // margin-left: 8px;
+  vertical-align: middle;
+  transition: opacity 0.2s;
+}
+
+.export-icon:hover {
+  opacity: 0.7;
+}
+
+
+
+.filter-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.apply-btn,
+.clear-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.apply-btn {
+  background-color: #147d64;
+  color: white;
+}
+
+.apply-btn:hover {
+  background-color: #0f6c58;
+}
+
+.clear-btn {
+  background-color: #eee;
+  color: #333;
+}
+
+.clear-btn:hover {
+  background-color: #ddd;
+}
+
+
+.filter-icon {
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+
+
+
+
+
+
+}
+
+::ng-deep.k-pager-info {
+    text-align: end;
+    margin-right: 10px !important;
+    justify-content: flex-end;
+    flex: 1 1 0%;
+    order: 9;
+}
+
+::ng-deep.k-link, .k-link:hover {
+    color: inherit;
+    text-decoration: none;
+    outline: 0;
+    cursor: pointer;
+    background: #EBEFEE;
+}
+
+
+
+  

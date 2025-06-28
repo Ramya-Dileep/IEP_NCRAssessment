@@ -1,0 +1,136 @@
+<div class="tabulardiv">
+  <div class="header">
+    <span>Activities</span>
+    <span class="results-summary">Results: {{ filteredProjects.length }} Activities
+</span>
+    <div class="nav-actions">
+      <!-- <input
+        class="search-input"
+        type="text"
+        [formControl]="searchControl"
+        placeholder="Search in all columns"
+      /> -->
+
+      <div class="search-box">
+        <input
+          type="text"
+          class="search-input"
+          [formControl]="searchControl"
+          placeholder="Search in all columns"
+        />
+        <span class="material-symbols-outlined search-icon">search</span>
+      </div>
+
+      <img
+  src="assets/Logos/icons-excel.svg"
+  alt="Export to Excel"
+  class="export-icon"
+  (click)="exportToExcel()"
+  title="Export to Excel"
+/>
+
+
+       <span class="material-symbols-outlined" (click)="toggleFullscreen()">
+        {{ isFullscreen ? 'fullscreen_exit' : 'fullscreen' }}
+      </span>
+
+      <span class="material-symbols-outlined">settings</span>
+
+     
+    </div>
+  </div>
+
+   @if (loading) {
+    <kendo-loader
+      [size]="'large'"
+      [themeColor]="'primary'"
+      [type]="'infinite-spinner'"
+      style="display: flex; justify-content: center; margin: 20px; height: 400px; color : #147d64">
+    </kendo-loader>
+  } @else {
+
+
+<!-- Exporter used ONLY for downloading Excel -->
+<kendo-excelexport
+  #excelExport
+  [data]="filteredProjects"
+  [fileName]="'NCRTabularData.xlsx'"
+>
+  <kendo-excelexport-column
+    *ngFor="let col of columns"
+    [field]="col.field"
+    [title]="col.title"
+    [width]="col.width"
+  >
+  </kendo-excelexport-column>
+</kendo-excelexport>
+
+    
+
+<kendo-grid
+  [data]="pagedData"
+  [height]="isFullscreen ? 700 : 550"
+  [sortable]="{ mode: 'multiple' }"
+  [pageable]="true"
+  [skip]="skip"
+  [pageSize]="pageSize"
+  [sort]="sort"
+  [filter]="filter"
+  (pageChange)="onPageChange($event)"
+  (dataStateChange)="dataStateChange($event)"
+>
+  <kendo-grid-column *ngFor="let col of columns"
+                     [field]="col.field"
+                     [title]="col.title"
+                     [width]="col.width"
+                     [filterable]="false">
+    <ng-template kendoGridHeaderTemplate let-column>
+      <div class="header-with-menu">
+        <span class="material-symbols-outlined">
+          drag_indicator
+          </span>
+        {{ col.title }}
+         <button class="filter-icon" (click)="toggleFilterIcon($event, col.field)" aria-label="Toggle filter menu">
+        <span class="material-symbols-outlined">more_vert</span>    </button>
+      </div>
+    </ng-template>
+  </kendo-grid-column>
+</kendo-grid>
+
+<!-- Popup outside grid -->
+<kendo-popup
+  *ngIf="activeFilterColumn && anchor"
+  [anchor]="anchor"
+  [popupAlign]="{ horizontal: 'right', vertical: 'bottom' }"
+  [anchorAlign]="{ horizontal: 'right', vertical: 'top' }"
+>
+  <div class="filter-menu-popup">
+    <input
+      type="text"
+      class="filter-search-input"
+      placeholder="Search..."
+      [(ngModel)]="columnFilterSearch[activeFilterColumn]"
+      (input)="filterDistinctValues(activeFilterColumn)" />
+
+    <div class="distinct-values">
+      <label *ngFor="let value of filteredDistinctValues[activeFilterColumn]">
+        <input
+          type="checkbox"
+          [checked]="columnSelectedValues[activeFilterColumn].includes(value)"
+          (change)="onCheckboxChange(activeFilterColumn, value, $event)" />
+        {{ value }}
+      </label>
+    </div>
+
+    <div class="filter-actions">
+      <button class="apply-btn" (click)="applyColumnFilter(activeFilterColumn)">Apply Filter</button>
+      <button class="clear-btn" (click)="clearColumnFilter(activeFilterColumn)">Clear Filter</button>
+    </div>
+  </div>
+</kendo-popup>
+
+
+
+
+}
+</div>

@@ -1,0 +1,26 @@
+<div class="dashboard-container" [class.fullscreen]="isFullscreen">
+
+  <app-header class="header" [toolName]="toolName"></app-header>
+
+  <div class="main-content">
+
+      <div class="left-sidebars" >
+        <app-side-icon-panel class="iconsidebar"></app-side-icon-panel>
+        <app-side-filter-panel [hidden]="isFullscreen"
+          class="filtersidebar"
+          (selectedContractsChange)="onContractsChanged($event)"
+          [class.collapsed]="isSidebarCollapsed"
+        ></app-side-filter-panel>
+      </div>
+
+    <!-- Main Content Area -->
+    <div class="content-area">
+      <app-maincontent-header
+        [fullscreenMode]="isFullscreen"
+        (fullscreenToggled)="onFullscreenToggle($event)"
+        [ProjectName]="SelectedContractsForMain"
+        [SelectedContracts] = "selectedContracts"
+      ></app-maincontent-header>
+    </div>
+  </div>
+</div>

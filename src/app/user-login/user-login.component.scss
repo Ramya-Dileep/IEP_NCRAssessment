@@ -1,0 +1,145 @@
+
+$primary-color: #147D64;
+$font-family: 'Calibri';
+$input-height: 35px;
+$input-width: 320px;
+$font-size-sm: 0.85rem;
+$error-color: red;
+$box-shadow-default: 0px 4px 12px rgba(0, 0, 0, 0.1);
+
+/* Layout */
+.loginBackground {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: white;
+}
+
+.loginContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  margin-bottom: 40px;
+  // background-color: #f9f9f9;
+  // border-radius: 8px;
+  // box-shadow: $box-shadow-default;
+}
+
+/* Logo */
+.login-logo {
+  display: block;
+  margin: 0 auto 20px;
+  max-width: 150px;
+  height: auto;
+  margin-bottom: 50px;
+}
+
+/* Headings */
+h5 {
+  text-align: center;
+  color: black;
+  font-weight: bolder;
+  font-family: MyFont;
+  font-size: 16px;
+
+}
+
+/* Form */
+form {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Labels */
+.UserLabel {
+  font-size: $font-size-sm;
+  // padding-left: 0.2cm;
+  font-weight: normal;
+  margin-bottom: 10px ;
+  font-family: $font-family;
+  align-items: center;
+
+}
+
+.required-asterisk {
+  color: $error-color;
+  margin-left: 0px;
+}
+
+/* Input Fields */
+.UserInput {
+  background-color: white;
+  color: #121212;
+  border: 1px solid lightgray;
+  width: $input-width;
+  height: $input-height;
+  font-family: $font-family;
+  // padding-left: 6px;
+  padding-left: 0.3cm;
+  box-sizing: border-box;
+  display: block;
+  border-radius: 4px;
+  margin-top: 3px;
+
+  &::placeholder {
+    font-size: $font-size-sm;
+    font-family: $font-family;
+    // padding-left: 0.2cm;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &.ng-invalid.ng-touched {
+    border-color: $error-color;
+  }
+}
+
+/* Button */
+.login {
+  width: $input-width;
+  height: $input-height;
+  border: 1px solid $primary-color;
+  background-color: $primary-color;
+  cursor: pointer;
+  font-size: 14px;
+  color: white;
+  font-family: MyFont;
+  text-align: center;
+  line-height: $input-height;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/* Error Message */
+.errormsg {
+  color: $error-color;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Checkbox */
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  width: $input-width;
+  margin: 0 auto;
+  font-family: $font-family;
+  font-size: $font-size-sm;
+  color: #A0A0A0;
+
+  input[type='checkbox'] {
+    margin-right: 8px;
+    accent-color: $primary-color;
+  }
+  
+}
+

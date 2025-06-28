@@ -1,0 +1,348 @@
+
+.maincontentheader {
+  display: flex;
+  flex-direction: column;
+  height: 92vh;
+  overflow: hidden;
+  margin-left: 10px;
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2px;
+      // flex-shrink: 0;
+      // height: 5vh;
+  
+      .module {
+        .module-name {
+          font-size: 22px;
+          font-weight: 600;
+          color: #333;
+        }
+      }
+  
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+  
+        .label {
+          font-size: 12px;
+        }
+
+
+          .percentage-circle {
+            .circle {
+              --percentage: 75;
+              width: 35px;
+              height: 35px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: conic-gradient(#02a783 calc(var(--percentage) * 1%), #e0e0e0 0);
+
+              position: relative;
+              padding: 2px; // keep or adjust if needed
+
+              &::before {
+                content: '';
+                position: absolute;
+                width: 31px;    // made it larger (was 28px)
+                height: 31px;   // made it larger (was 28px)
+                border-radius: 50%;
+                background-color: #ecf0f1;
+                z-index: 1;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+              }
+
+              .value {
+                position: relative;
+                z-index: 2;
+                font-size: 12px;
+                color: #000;
+                font-weight: 500;
+              }
+            }
+          }
+
+
+
+
+        .datedisplay {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+                      
+           .label {
+            color: #000000;
+            }
+                      
+            .date {
+              color: #02A783; // Aqua for the date
+              font-weight: 500;
+                }
+            }
+  
+        .divider {
+          color: #ccc;
+          font-size: 16px;
+        }
+  
+        .nav-btn {
+          padding: 6px 12px;
+          background-color: #147d64;
+          color: #fff;
+          border: none;
+          border-radius: 4px;
+          font-size: 14px;
+          cursor: pointer;
+          // transition: background-color 0.3s ease;
+  
+          // &:hover {
+          //   background-color: #1565c0;
+          // }
+        }
+      }
+    }
+
+    // .projectName{
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: space-between;
+    //     font-weight: bolder;
+    //     background-color:none;
+    //     // flex-shrink: 0;
+    //     height: 6vh;
+    //     margin-top: 10px;
+    //     margin-bottom: 10px;
+
+    // }
+
+    .projectName {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bolder;
+  height: 6vh;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+   .projectText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 1000px;  
+  padding: 5px;   
+  min-width: 0;      
+  flex-shrink: 1;
+  font-size: 14px;
+}
+
+
+
+    .kendo-tab-buttons {
+        display: flex;
+        font-size: 14px;
+        gap: 25px;
+         flex-shrink: 0;
+        height: 5vh;
+        margin-bottom: 0;
+        margin-top: 15px;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.29);
+
+      
+        button.k-button {
+          background: none;
+          border: none;
+          border-bottom: 2px solid transparent;
+          border-radius: 0;
+          padding: 8px 0;
+          color: #7A7A7A;
+          font-weight: 500;
+          box-shadow: none;
+          outline: none;
+                       
+          &.active-tab {
+            border-bottom-color: #02A783; 
+            box-shadow: none;
+            outline: none;
+            color: black;
+          }
+        }
+      }
+
+  .upload-icon {
+  width: 80px;
+  height: 35px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.upload-icon-link {
+  display: inline-block;
+  margin-right: 6px;
+}
+
+
+      .reassign-alert {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff3cd;
+  border: 1px solid red;
+  border-radius: 4px;
+  padding-left: 7px;
+  margin-bottom: 15px;
+
+  .alert-text {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: small;
+    padding: 6px;
+
+    .material-symbols-outlined {
+      font-size: 1.2rem;
+      color: orange;
+    }
+
+    strong {
+      color: black;
+    }
+
+    a {
+      color: red;
+      text-decoration: none;
+      margin-left: 0.5rem;
+      font-weight: bold;
+      font-size: 12px;
+    }
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    justify-content: center;
+
+    .material-symbols-outlined {
+      font-size: 16px;
+      color: black;
+      margin-right: 10px;
+    }
+  }
+}
+
+    .scrollable-content {
+    flex: 1;
+    // overflow-y: auto;
+    height: auto;
+    // padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+      .grid-container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      
+      .grid-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      
+      .dropdown-filters {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      
+      .dropdown-filters div {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .detail-content {
+        padding: 10px;
+        background-color: #eef;
+        border: 1px solid #ddd;
+      }
+
+  .coming-soon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px; /* Adjust height as needed */
+  text-align: center;
+  // background-color: #f9f9f9;
+  color: #666;
+  font-size: 1.5rem;
+  font-weight: 500;
+  // border: 2px dashed #ccc;
+  border-radius: 8px;
+  margin: 20px;
+  padding: 40px;
+  // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.coming-soon p {
+  margin: 0;
+}
+
+      
+  }
+
+/* Apply a default gray bottom border to all tab items */
+::ng-deep .k-tabstrip-items-wrapper {
+  border-bottom: 2px solid #DDE3E1;
+}
+
+
+
+::ng-deep .k-tabstrip-items *, .k-tabstrip-items *::before, .k-tabstrip-items *::after {
+    box-sizing: border-box;
+    font-size: 13px;
+    font-weight: 500 !important;
+}
+ 
+/* Remove default borders and shadow for clean look */
+::ng-deep .k-tabstrip-items-wrapper .k-item {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #6C6C6C;
+}
+ 
+/* ✅ Style selected tab only */
+::ng-deep .k-tabstrip-items-wrapper .k-item.k-active,
+::ng-deep .k-tabstrip-items-wrapper .k-item.k-selected {
+  color: black !important;
+}
+ 
+ 
+/* Add green bottom border only for selected/active tab */
+::ng-deep .k-tabstrip-items-wrapper .k-item.k-active::after,
+::ng-deep .k-tabstrip-items-wrapper .k-item.k-selected::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0px; /* aligns with wrapper's border */
+  height: 2px;
+  width: 100%;
+  background-color: #02A783;
+}
+  
+  

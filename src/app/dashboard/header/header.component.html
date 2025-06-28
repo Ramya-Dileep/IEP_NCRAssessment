@@ -1,0 +1,59 @@
+ <div class="header">
+    <div class="title">
+     <span class="material-icons menu-icon" (click)="onMenuClick()">menu</span>
+     <img src="assets/Logos/Logo-Dashboard.png" alt="App Logo" class="logo" />
+     <span class="divider">|</span>
+     <span class="tool-name">{{toolName}}</span>
+  </div>
+
+  <div class="nav-actions">
+    <button class="nav-btn">My Request</button>
+    <button class="nav-btn">Support Ticket</button>
+
+    <span class="icon material-icons">chat</span>
+    <span class="icon material-icons">help_outline</span>
+    <span class="icon material-icons">notifications</span>
+  </div>
+
+
+  <div class="profile" (click)="toggleDropdown()" tabindex="0" (blur)="DropdownClose()">
+  <img [src]="avatarUrl" class="avatar" alt="User Avatar" />
+
+  
+  <div class="dropdown" *ngIf="isDropdownOpen">
+    
+    <!-- Avatar inside dropdown -->
+    <img [src]="avatarUrl" class="dropdown-avatar" alt="User Avatar" />
+    
+    <!-- Admin info -->
+    <div class="admin-info">
+      <div class="admin-name">{{userName}}</div>
+      <div class="admin-email">{{adminEmail}}</div>
+    </div>
+
+    <div class="divider"></div>
+
+   <button class="dropdown-btn">
+  <span class="material-icons">group</span>
+  <span class="label">Change Dashboard</span>
+  <span class="chevron material-icons">chevron_right</span>
+</button>
+
+    <div class="divider"></div>
+
+    <button class="logout-btn" (click)="onLogout($event)">
+    <span class="material-icons">power_settings_new</span>
+    <span class="label">Logout</span>
+  </button>
+
+
+  </div>
+</div>
+
+
+ <!-- <div class="profile">
+    <img src="assets/Logos/Avatar-user.jpg" class="avatar" alt="User Avatar" (click)="onlogout()" tabindex="0" (blur)="DropdownClose()" />
+  </div> -->
+
+</div>
+
