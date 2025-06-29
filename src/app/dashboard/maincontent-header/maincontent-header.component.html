@@ -169,7 +169,9 @@
 
 
     <div class="scrollable-content">
+      <!-- use for type filter [type]="selectedType()" -->
       <app-activities-tabulardata
+        *ngIf="isTabular()"       
         [fullscreenMode]="fullscreenMode"
         (fullscreenToggled)="toggleFullscreen()"
         [SelectedContracts] = "SelectedContracts"

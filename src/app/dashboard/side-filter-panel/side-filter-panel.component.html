@@ -65,53 +65,38 @@
   </button>
 
   <!-- Multiselect Block (only visible when toggled) -->
-  <div class="advanced-search-options" *ngIf="isAdvancedSearchVisible">
- <div class="advanced-filter-group" *ngFor="let item of advanceFilterKeys; trackBy: trackByFn">
-  <label class="filter-label">{{ item | titlecase }}</label>
-
-  <div class="multiselect-container">
-  <kendo-multiselect
-    #multiSelect
-    [data]="advanceFilterOptions[item]"
-    [(ngModel)]="advanceSelectedValues[item]"
-    [valuePrimitive]="true"
-    [autoClose]="false"
-    [popupSettings]="{ appendTo: 'component', popupClass: 'custom-multiselect-popup' }"
-    [allowCustom]="false"
-    [checkboxes]="true"
-    class="custom-multiselect"
-  >
-    <ng-template kendoMultiSelectValueTemplate>
-      <div class="selected-values-wrapper" (click)="multiSelect.togglePopup(true)">
-        <!-- Show comma-separated values -->
-       <span class="comma-values">
-  {{
-    advanceSelectedValues[item].length
-      ? advanceSelectedValues[item].join(', ')
-      : 'Select ' + item
-  }}
-</span>
-
-
-        <!-- Dropdown icon -->
-        <span class="material-icons dropdown-icon">
-          arrow_drop_down
-        </span>
-
-        <!-- Remove icon -->
-        <span
-          *ngIf="advanceSelectedValues[item]?.length"
-          class="material-icons clear-icon"
-          (click)="clearSelection(item); $event.stopPropagation()"
-        >
-          close
-        </span>
-      </div>
-    </ng-template>
-  </kendo-multiselect>
-</div>
-
-</div>
+  <div class="filterWrapper" *ngIf="isAdvancedSearchVisible">
+<!-- Clear Filter link -->
+            <div class="clear-filter-text" (click)="clearAllFilters()">
+                Clear Filter
+            </div>
+            <div *ngFor="let item of advanceFilterItems; let i = index" class="filter-row" >
+                <label class="filter-label">{{ item.filterName }}</label>
+ 
+                <div class="filter-control">
+                    <!-- Display selected items comma-separated -->
+                    <div class="selected-values" title="{{ advanceSelectedValues[item.propertyName].join(', ') }}">
+                    {{ advanceSelectedValues[item.propertyName].join(', ') || '' }}
+                    </div>
+                    <span class="material-symbols-outlined icon minus" (click)="removeLastAddedFilter(item.propertyName)">remove</span>
+ 
+                     <div class="multiselect-wrapper">
+                        <!-- Custom Kendo Multiselect (hidden input, used only to select) -->
+                        <kendo-multiselect #multiSelect
+                        [data]="advanceFilterOptions[item.propertyName]"
+                        [(ngModel)]="advanceSelectedValues[item.propertyName]"
+                        [valuePrimitive]="true"
+                        [autoClose]="false"
+                        [popupSettings]="{ appendTo: 'component', popupClass: 'custom-multiselect-popup'  }"
+                        [tagMapper]="tagMapper"
+                        [allowCustom]="false"
+                        [checkboxes]="true"
+                        class="kendo-hidden"
+                        ></kendo-multiselect>                  
+                        <span class="material-symbols-outlined icon arrow" >expand_more</span>
+                     </div>
+                </div>
+            </div>
 
   </div>
 </div>

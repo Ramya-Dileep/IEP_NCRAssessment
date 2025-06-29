@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, computed, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -11,6 +11,7 @@ import { TabStripModule } from '@progress/kendo-angular-layout';
 
 import { FilterActivitiesComponent } from '../filter-activities/filter-activities.component';
 import { ActivitiesTabulardataComponent } from '../activities-tabulardata/activities-tabulardata.component';
+import { FilterStateService } from '../../service/filter-state.service';
 
 @Component({
   selector: 'app-maincontent-header',
@@ -57,12 +58,15 @@ export class MaincontentHeaderComponent implements OnInit {
     { label: 'Product Safety', value: 'Product Safety' },
   ];
 
-  constructor(private fb: FormBuilder, public authService : AuthService) {}
+  constructor(private fb: FormBuilder, public authService : AuthService, public filterState :  FilterStateService) {}
 
   ngOnInit(): void {
     const group: any = {};
     this.form = this.fb.group(group);
   }
+
+  isTabular = computed(() => this.filterState.viewType() === 'Tabular');
+  selectedType = computed(() => this.filterState.dataType());
 
   toggleFullscreen() {
     this.fullscreenToggled.emit(!this.fullscreenMode);

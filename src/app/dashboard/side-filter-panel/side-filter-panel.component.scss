@@ -439,83 +439,129 @@
 
 }
 
-::ng-deep .k-chip-list {
-  display: none !important; // hide default tags
+//    Advance Filter Grid
+.filterWrapper
+{
+  background-color: #F8FAF9;
+  margin: 8px;
+  border: 1 px solid #F8FAF9;
+  border-radius: 5px;
+  height: 150px; /* or whatever height you prefer */
+  overflow-y: auto;
 }
-
-::ng-deep .k-multiselect .k-input {
-  display: flex !important;
-  align-items: center;
+ 
+/* Chrome/Webkit */
+.filterWrapper::-webkit-scrollbar {
+  width: 6px;
 }
-
-.selected-values-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-right: 36px;
-  width: 100%;
+.filterWrapper::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
 }
-
-.comma-values {
-  flex: 1;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: #333;
-}
-
-.dropdown-icon,
-.clear-icon {
-  font-size: 20px;
-  margin-left: 8px;
-  color: #555;
+ 
+.clear-filter-text {
+  text-align: right;
+  color: rgb(3, 204, 184);           // Green color
+  font-size: 11px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  margin-right: 10px;
   cursor: pointer;
 }
-
-
-
+ 
+  .filter-row {
+  display: flex;
+  flex-direction: column; // 💡 Make children stack vertically
+  border-bottom: 1.5px solid lightgray;
+  padding: 6px 0;
+  width: 100%;
+ 
+}
+ 
 .filter-label {
-  display: block;
+  font-size: 11px;
   font-weight: 600;
+  color: #444;
   margin-bottom: 4px;
+    padding-left: 3px;
 }
-
-.multiselect-container {
-  position: relative;
-}
-
-.selected-values-wrapper {
+ 
+.filter-control {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding-right: 36px;
-  width: 100%;
+  gap: 4px;
 }
-
-.comma-values {
+ 
+.selected-values {
   flex: 1;
-  overflow: hidden;
   white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
-  color: #333;
+  font-size: 11px;
+  color: grey;
+  padding-left: 3px;
 }
-
-.dropdown-icon,
-.clear-icon {
-  font-size: 20px;
-  margin-left: 8px;
+ 
+.multiselect-wrapper {
+  position: relative;
+  display: inline-block;
+}
+ 
+.kendo-hidden {
+    font-size: 8px;
+    width: 65px;
+    border: none;
+    background-color: #F8FAF9;    
+    outline: none !important;
+    box-shadow: none !important;
+}
+ 
+.icon {
+  cursor: pointer;
+  font-size: 16px;
   color: #555;
+}
+ 
+.icon.arrow {
+  cursor: pointer;
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #555;
+}
+ 
+.icon.minus {
   cursor: pointer;
 }
-
-.clear-icon:hover {
-  color: #d32f2f;
+ 
+::ng-deep kendo-multiselect .k-input,
+::ng-deep kendo-multiselect .k-list-item {
+  font-size: 12px; // ✅ Adjust this to your desired size
 }
-
-
-
-
-
-
+ 
+ ::ng-deep .k-checkbox:checked, .k-checkbox.k-checked
+ {
+    border-color: #02A783 !important;
+    color: white !important;
+    background-color: #02A783 !important;
+}
+ 
+  ::ng-deep input[type=checkbox], input[type=radio] {
+    border: 1px solid gray !important;
+    box-sizing: border-box;
+    padding: 0;
+}
+ 
+::ng-deep .custom-multiselect-popup {
+  max-height: 200px; /* Adjust to your need */
+  overflow-y: auto;
+  width: 235px !important;
+}
+ 
+   ::ng-deep.k-input-md .k-input-inner, .k-picker-md .k-input-inner {
+    cursor: pointer;
+}
 
 

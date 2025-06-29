@@ -1,15 +1,3 @@
-// export interface ProjectTreeNode {
-//     projectName: string;
-//     trains: {
-//       trainName: string;
-//       jobNumbers: string[];
-//     }[];
-//     meta?: {
-//       isMyContract: boolean;
-//       isFavourite: boolean;
-//     };
-//   }
-
 
 // Top-level node with meta info
 export interface ProjectTreeNode {
@@ -18,6 +6,11 @@ export interface ProjectTreeNode {
   isMyContracts?: string;
   isFavourite?: string;
   children: ProjectTreeNode[];
+}
+
+export interface AdvanceFilterItem {
+  filterName: string;
+  propertyName: string;
 }
 
   

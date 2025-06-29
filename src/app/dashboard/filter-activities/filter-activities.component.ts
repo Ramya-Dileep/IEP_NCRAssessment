@@ -4,6 +4,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ButtonsModule } from '@progress/kendo-angular-buttons'; 
 import { DropDownListModule, DropDownsModule, MultiSelectModule } from '@progress/kendo-angular-dropdowns';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
+import { FilterStateService } from '../../service/filter-state.service';
 
 @Component({
   selector: 'app-filter-activities',
@@ -28,7 +29,7 @@ export class FilterActivitiesComponent implements OnInit {
   // User's expand/collapse preference signal
   userExpanded = signal(true);
 
-  constructor() {
+  constructor(public filterState: FilterStateService) {
     // Keep userExpanded = false when collapsed is true
     effect(() => {
       if (this.collapsed) {
@@ -88,6 +89,14 @@ export class FilterActivitiesComponent implements OnInit {
 
   onSelectionChnage(value: any, dropdownName: string) {
     console.log('Selection changed in:', dropdownName, value);
+  }
+
+  onSelectionChange(value: any, label: string) {
+    if (label === 'View As') {
+      this.filterState.updateViewType(value.value);
+    } else if (label === 'Type') {
+      this.filterState.updateDataType(value.value);
+    }
   }
 
   // UI state

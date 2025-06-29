@@ -7,17 +7,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { Output, EventEmitter } from '@angular/core';
 import { SidebarService } from '../../service/sidebar.service';
 import { ProjectTreeService, Project } from '../../service/project-tree.service';
-import { ProjectTreeNode } from '../../models/projectTree.model';
+import { ProjectTreeNode, AdvanceFilterItem } from '../../models/projectTree.model';
 import { TreeViewModule } from '@progress/kendo-angular-treeview';
 import { ChangeDetectorRef } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
-import { MultiSelectModule } from '@progress/kendo-angular-dropdowns';
-import { ViewEncapsulation } from '@angular/core';
+import { MultiSelectModule, KENDO_DROPDOWNS } from '@progress/kendo-angular-dropdowns';
 
 @Component({
   selector: 'app-side-filter-panel',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, MatIconModule, TreeViewModule, MultiSelectModule, FormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, MatIconModule, TreeViewModule, MultiSelectModule, FormsModule, KENDO_DROPDOWNS],
   templateUrl: './side-filter-panel.component.html',
   styleUrl: './side-filter-panel.component.scss',
 })
@@ -69,8 +68,7 @@ export class SideFilterPanelComponent implements OnInit, OnDestroy {
         .subscribe((term) => this.applySearch(term || ''))
     );
 
-
-
+    this.LoadAdvanceFilter();
   }
 
   ngAfterViewInit(): void {
@@ -388,44 +386,127 @@ emitSelectedContracts(): void {
   }
 
 
-  // Inside your component class
-isAdvancedSearchVisible = false;
+ // variables for Advance Search
+  isAdvancedSearchVisible = false;
+  advanceSearchToggle : boolean = true;
+  advanceFilterItems:AdvanceFilterItem[] = []; // from API
+  advanceFilterOptions: Record<string, string[]> = {}; // propertyName => array
+  advanceSelectedValues: Record<string, string[]> = {}; // propertyName => selected items
+  fullJobList : any;
+  tagMapper = () => [];
+ 
+LoadAdvanceFilter() {
+  this.projectService.GetAdvanceFilter().subscribe(response => {
+    const data = response?.data;
 
-// Optional: sample structure for dynamic items
-advanceFilterOptions: Record<string, string[]> = {
-  region: ['APAC', 'EMEA', 'NA'],
-  jobStatus: ['Open', 'Closed']
-};
-
-advanceSelectedValues: Record<string, string[]> = {
-  region: [],
-  jobStatus: []
-};
-
-get advanceFilterKeys(): string[] {
-  return Object.keys(this.advanceFilterOptions);
-}
-
-trackByFn(index: number, key: string): string {
-  return key;
-}
-
-toggleMultiSelectPopup(multiSelect: any): void {
-  multiSelect.togglePopup(!multiSelect.isOpen);
-}
-
-clearSelection(key: string): void {
-  this.advanceSelectedValues[key] = [];
+    if (data && Array.isArray(data.filterItems)) {
+      this.advanceFilterItems = data.filterItems;
+      this.fullJobList = data.jobFullList;
+      this.CheckDefaultAdvanceFilters(data);
+    } else {
+      console.warn('Expected filterItems to be an array:', data?.filterItems);
+      this.advanceFilterItems = [];
+    }
+  });
 }
 
 
+ 
+  // LoadAdvanceFilter()
+  // {
+  //   this.projectService.GetAdvanceFilter().subscribe(data => {
+  //     this.advanceFilterItems = data.filterItems;
+  //     this.fullJobList = data.jobFullList;
+  //     this.CheckDefaultAdvanceFilters(data);
+  //   });
+  // }
 
-// Optional tag mapper
-tagMapper = (value: string) => value;
+  CheckDefaultAdvanceFilters(responseData: any) {
+  if (!Array.isArray(this.advanceFilterItems)) {
+    console.error('advanceFilterItems is not an array:', this.advanceFilterItems);
+    return;
+  }
 
+  for (let item of this.advanceFilterItems) {
+    const key = item.propertyName;
+    this.advanceFilterOptions[key] = responseData[key] || [];
 
-drivers : string[] = [ 'A', 'B', 'C'];
-selectedDrivers : string[] = [];
+    if (key === 'businessTier1') {
+      this.advanceSelectedValues[key] = ["New Units", "PVS - Upgrades"];
+    } else if (key === 'Delivery_Date') {
+      this.advanceSelectedValues[key] = ["12/21/2017"];
+    } else if (key === 'Project_Type') {
+      this.advanceSelectedValues[key] = ["Active", "Planned"];
+    } else {
+      this.advanceSelectedValues[key] = [];
+    }
+  }
+}
 
+ 
+  // CheckDefaultAdvanceFilters(responseData : any)
+  // {
+  //     // Iterate filter values
+  //     for (let item of this.advanceFilterItems) {
+  //       const key = item.propertyName;
+  //       this.advanceFilterOptions[key] = responseData[key] || [];
+  //     // 👇 Default selection for Project_Type
+  //     if (key === 'businessTier1') {
+  //       this.advanceSelectedValues[key] = ["New Units", "PVS - Upgrades"];
+  //     }
+  //     else if (key === 'Delivery_Date') {
+  //       this.advanceSelectedValues[key] = ["12/21/2017"];
+  //     }
+  //      else if (key === 'Project_Type') {
+  //       this.advanceSelectedValues[key] = ["Active","Planned"];
+  //     }  
+  //     else {
+  //       this.advanceSelectedValues[key] = [];
+  //     }
+  //     }
+  // }
+ 
+// Removes last selected value for a given key
+  removeLastAddedFilter(property: string) {
+    const values = this.advanceSelectedValues[property];
+    if (values?.length)
+    {
+      values.pop();
+      this.advanceSelectedValues[property] = [...values];
+      this.applyFilter();
+    }
+  }
+
+  applyFilter(): void {
+  this.applyTabFilter(); // optional if needed to combine filters
+
+  const matchesAdvancedFilter = (project: ProjectTreeNode): boolean => {
+    for (const [key, selectedValues] of Object.entries(this.advanceSelectedValues)) {
+      if (selectedValues.length === 0) continue;
+
+      const projectValue = (project as any)[key];
+      if (!selectedValues.includes(projectValue)) return false;
+    }
+    return true;
+  };
+
+  this.filteredProjects = this.filteredProjects.filter(matchesAdvancedFilter);
+  this.originalProjects = [...this.filteredProjects];
+  this.applySearch(this.searchControl.value || '');
+  this.selectFirstProjectAndJobs();
+}
+
+ 
+  clearAllFilters() {
+    for (let key in this.advanceSelectedValues) {
+      // Do not clear Active and Planned Project Types as its a must checked item always
+      if (key === 'Project_Type') {
+        this.advanceSelectedValues[key] = ["Active", "Planned"];
+      }
+      else {
+        this.advanceSelectedValues[key] = [];
+      }
+    }
+  }
 
 }

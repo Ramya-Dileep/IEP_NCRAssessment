@@ -20,10 +20,16 @@ export interface Project {
   id: string;
   text: string;
   isMyContract: string;
-  isFavourite: string;
-  
+  isFavourite: string;  
   children: Project[]; // recursive children (trains or jobs)
 }
+
+
+export interface AdvanceFilterItem {
+  filterName: string;
+  propertyName: string;
+}
+ 
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +43,7 @@ export class ProjectTreeService {
   // private readonly dataUrl = 'assets/JSON/projecttreedata.json';
 
    private readonly dataUrl = 'http://localhost:5000/api/projects';
+   private readonly advancesearchUrl = 'http://localhost:5000/api/advanceFilter';
 
   private projects : Project[] =[];
    
@@ -54,4 +61,9 @@ export class ProjectTreeService {
     getFavourites(): Observable<Project[]> {
       return of(this.projects.filter(p => p.isFavourite === 'True'));
     }
+ 
+ GetAdvanceFilter() : Observable<any>
+  {
+    return this.http.get<any>(this.advancesearchUrl);
+  }
 }
