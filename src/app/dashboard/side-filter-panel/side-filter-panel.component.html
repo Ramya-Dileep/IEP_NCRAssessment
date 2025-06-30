@@ -59,7 +59,7 @@
    <div class="advsearchdiv" *ngIf="authService.isAdmin()">
   <button class="advanceSearch" (click)="isAdvancedSearchVisible = !isAdvancedSearchVisible">
     <span class="material-symbols-outlined">
-      {{ isAdvancedSearchVisible ? 'expand_less' : 'chevron_right' }}
+      {{ isAdvancedSearchVisible ?  ' keyboard_arrow_down ' : 'chevron_right' }}
     </span>
     Advanced Search
   </button>
@@ -78,7 +78,13 @@
                     <div class="selected-values" title="{{ advanceSelectedValues[item.propertyName].join(', ') }}">
                     {{ advanceSelectedValues[item.propertyName].join(', ') || '' }}
                     </div>
-                    <span class="material-symbols-outlined icon minus" (click)="removeLastAddedFilter(item.propertyName)">remove</span>
+                    <span
+                      class="material-symbols-outlined icon minus"
+                      *ngIf="advanceSelectedValues[item.propertyName]?.length"
+                      (click)="removeLastAddedFilter(item.propertyName)"
+                    >
+                      remove
+                    </span>
  
                      <div class="multiselect-wrapper">
                         <!-- Custom Kendo Multiselect (hidden input, used only to select) -->
@@ -138,6 +144,7 @@
   <label for="selectAll">Current Projects</label>
 </div>
 
+<div class="treeview-scroll-wrapper" *ngIf="isTreeExpanded">
     <kendo-treeview
     *ngIf="isTreeExpanded"
     [nodes]="filteredProjects"
@@ -173,7 +180,7 @@
 
 
 </kendo-treeview>
-
+</div>
     </div>
   }
 </div>

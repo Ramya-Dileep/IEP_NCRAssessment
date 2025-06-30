@@ -430,11 +430,8 @@ LoadAdvanceFilter() {
   for (let item of this.advanceFilterItems) {
     const key = item.propertyName;
     this.advanceFilterOptions[key] = responseData[key] || [];
-
-    if (key === 'businessTier1') {
-      this.advanceSelectedValues[key] = ["New Units", "PVS - Upgrades"];
-    } else if (key === 'Delivery_Date') {
-      this.advanceSelectedValues[key] = ["12/21/2017"];
+ if (key === 'Delivery_Year') {
+      this.advanceSelectedValues[key] = ["2017"];
     } else if (key === 'Project_Type') {
       this.advanceSelectedValues[key] = ["Active", "Planned"];
     } else {
