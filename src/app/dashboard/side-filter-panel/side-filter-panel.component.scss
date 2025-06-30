@@ -29,10 +29,10 @@
     }
 
     .material-symbols-outlined{
-      color: black;
-       margin-left: 100px;
-       font-size: 16px;
-       margin-bottom: 5px;
+       color: black;
+        margin-left: 80px;
+        font-size: 18px;
+        margin-bottom: 5px;
 
     }
 
@@ -174,8 +174,8 @@
     width: 16px;
     height: 16px;
     cursor: pointer;
-    font-weight: 100;
-    accent-color: #199473;
+    // font-weight: 100;
+    accent-color: #02A783;
   }
 
   label {
@@ -582,4 +582,173 @@
     background-color: #888;     // Darker on hover
   }
 }
+
+::ng-deep .k-list-item:focus,
+::ng-deep .k-list-optionlabel:focus,
+::ng-deep .k-list-custom-value:focus,
+::ng-deep .k-list-item.k-focus,
+::ng-deep .k-focus.k-list-optionlabel,
+::ng-deep .k-focus.k-list-custom-value {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Base popup wrapper styling */
+::ng-deep .popup-wrapper {
+  position: absolute;
+  top: 100%; /* open below the trigger */
+  left: 0;
+  transform-origin: top center;
+  width: 380px;
+  /* Add transition if needed */
+}
+
+::ng-deep .popup-wrapper.open-above {
+  top: auto;
+  bottom: 100%; /* open above the trigger */
+  transform-origin: bottom center;
+}
+
+/* Direction control for submenu */
+::ng-deep .popup-wrapper.open-right {
+  direction: ltr;
+}
+
+::ng-deep .popup-wrapper.open-left {
+  direction: rtl;
+}
+
+/* Each popup item */
+::ng-deep .popup-item {
+  position: relative;
+  cursor: pointer;
+}
+
+::ng-deep .popup-item-main {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  transition: background 0.2s;
+}
+
+::ng-deep .popup-item-main:hover {
+  background-color: #f0f0f0;
+}
+
+::ng-deep .popup-item-main .parentIcon {
+    margin-right: 8px;
+    font-size: 18px;
+    color: grey;
+
+}
+
+::ng-deep .popup-item-main .label {
+  flex: 1;
+  color: #333;
+}
+
+::ng-deep .expand-arrow {
+  font-size: 18px;
+  color: #888;
+}
+
+/* Submenu styling */
+::ng-deep .popup-submenu {
+  position: absolute;
+  top: 0;
+  background: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 180px;
+  z-index: 1001;
+}
+
+::ng-deep .popupSubMenuLeft {
+  left: 100%;
+}
+
+::ng-deep .popupSubMenuRight {
+  right: 100%;
+}
+
+/* Submenu item */
+::ng-deep .popup-subitem {
+  padding: 8px 16px;
+  white-space: nowrap;
+  cursor: pointer;
+  color: #333;
+}
+
+::ng-deep .popup-subitem:hover {
+  background-color: #f5f5f5;
+}
+
+/* Optional static info section */
+::ng-deep .popup-separator {
+  margin: 8px 0;
+  border: 0;
+  height: 1px;
+  background: #e0e0e0;
+}
+
+::ng-deep .popup-info-header {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  font-weight: bold;
+  color: #444;
+}
+
+::ng-deep .info-icon {
+  font-size: 18px;
+  margin-right: 8px;
+  color: grey;;
+}
+
+::ng-deep .popup-uploaded-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 4px 16px;
+  font-size: 13px;
+  color: #555;
+  gap: 10px;
+}
+
+::ng-deep .popup-uploaded-info .file-name {
+  flex: 1;
+  font-weight: 300;
+  white-space: normal;         /* allow wrapping */
+  overflow: visible;
+  word-break: break-word;      /* optional: better word wrapping */
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+::ng-deep .popup-uploaded-info .file-date {
+  font-size: 12px;
+  color: #888;
+  white-space: nowrap;         /* keeps the date on one line */
+  flex-shrink: 0;              /* prevents it from shrinking or wrapping */
+}
+
+.three-dot-icon {
+  cursor: pointer;
+  border-radius: 50%;               // ✅ Makes it round
+  padding: 6px;                     // ✅ Adds spacing around icon
+  transition: background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: #CACACA;      // Light grey on hover
+  }
+
+  &.active {
+    background-color: #CACACA;      // Slightly darker grey when active
+  }
+}
+
+
 

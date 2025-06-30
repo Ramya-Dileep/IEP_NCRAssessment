@@ -2,14 +2,58 @@
   <div class="header">
     @if (!isCollapsed) {
       <h6>Filter Contracts</h6>
-      <span class="material-symbols-outlined">
-        more_horiz
-        </span>
+      <span #popupAnchor class="material-symbols-outlined three-dot-icon" [class.active]="isThreeDotClick" style="cursor: pointer;" (click)="toggleThreeDotPopup()">
+  more_horiz
+</span>
+
     }
     <button class="toggle-btn" (click)="collapseSidebar()">
       <mat-icon>arrow_back</mat-icon>
     </button>
   </div>
+
+ <!-- Popup attached to more_horiz -->
+<kendo-popup
+  *ngIf="isThreeDotClick"
+ [collision]="{ horizontal: 'fit', vertical: 'flip' }"
+  [popupAlign]="{ horizontal: 'right', vertical: 'bottom' }"
+  [anchor]="popupAnchor"
+  [popupClass]="popupStyle"
+>
+  <div class="popup-item" *ngFor="let item of popupItems" (click)="onPopupItemClick(item)">
+    <div class="popup-item-main">
+      <span class="material-icons-outlined parentIcon">{{ item.icon }}</span>
+      <span class="label">{{ item.label }}</span>
+       <!-- Show arrow if submenu exists -->
+    <span *ngIf="item.children?.length" class="material-icons expand-arrow">
+      {{ popupClass.includes('open-left') ? 'chevron_left' : 'chevron_right' }}
+    </span>
+  </div>
+
+  <!-- Submenu -->
+  <div class="popup-submenu"
+    [ngClass]="popupClass.includes('open-left') ? 'popupSubMenuRight' : 'popupSubMenuLeft'"
+    *ngIf="item.children?.length">
+    <div class="popup-subitem" *ngFor="let child of item.children" (click)="onItemClick(child)">
+      {{ child.label }}
+    </div>
+    </div>
+  </div>
+
+  <!-- Static info section: Uploaded Files -->
+  <ng-container *ngIf="uploadedFiles?.length">
+    <hr class="popup-separator" />
+    <div class="popup-info-header">
+      <span class="material-icons-outlined info-icon">info</span>
+      <span class="info-text">Last Uploaded Info</span>
+    </div>
+    <div class="popup-uploaded-info" *ngFor="let file of uploadedFiles">
+      <div class="file-name">{{ file.name }}</div>
+      <div class="file-date">: {{ file.date }}</div>
+    </div>
+  </ng-container>
+</kendo-popup>
+
 
   @if (!isCollapsed) {
     <div class="contract-buttons">
@@ -93,6 +137,7 @@
                         [(ngModel)]="advanceSelectedValues[item.propertyName]"
                         [valuePrimitive]="true"
                         [autoClose]="false"
+                         (valueChange)="applyFilter()"
                         [popupSettings]="{ appendTo: 'component', popupClass: 'custom-multiselect-popup'  }"
                         [tagMapper]="tagMapper"
                         [allowCustom]="false"
@@ -134,15 +179,17 @@
 
 <div class="select-all-container" *ngIf="filteredProjects.length !== 0">
   <span class="material-symbols-outlined"  (click)="toggleTreeExpand()">
-{{ isTreeExpanded ? 'expand_more' : 'chevron_right' }}    </span>
+    {{ isTreeExpanded ? 'expand_more' : 'chevron_right' }}
+  </span>
   <input
     type="checkbox"
-    [checked]="isAllSelected"
-    (change)="toggleSelectAll($event)"
-    id="selectAll"
+    [checked]="isCurrentProjectsSelected"
+    (change)="toggleSelectCurrentProjects($event)"
+    id="selectCurrentProjects"
   />
-  <label for="selectAll">Current Projects</label>
+  <label for="selectCurrentProjects">Current Projects</label>
 </div>
+
 
 <div class="treeview-scroll-wrapper" *ngIf="isTreeExpanded" #treeWrapper>
     <kendo-treeview
