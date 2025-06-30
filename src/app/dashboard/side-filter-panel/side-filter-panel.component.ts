@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, Observable, of, Subscription } from 'rxjs';
 import { CommonModule, TitleCasePipe } from '@angular/common';
@@ -70,6 +70,25 @@ export class SideFilterPanelComponent implements OnInit, OnDestroy {
 
     this.LoadAdvanceFilter();
   }
+
+  @ViewChild('treeWrapper') treeWrapper!: ElementRef<HTMLDivElement>;
+
+
+  updateTreeHeight() {
+  if (!this.treeWrapper) return;
+
+  const newHeight = this.isAdvancedSearchVisible ? 200 : 400;
+  this.treeWrapper.nativeElement.style.maxHeight = `${newHeight}px`;
+}
+
+toggleAdvancedSearch() {
+  this.isAdvancedSearchVisible = !this.isAdvancedSearchVisible;
+
+  setTimeout(() => {
+    this.updateTreeHeight();
+  }, 0);
+}
+
 
   ngAfterViewInit(): void {
      this.subscriptions.push(

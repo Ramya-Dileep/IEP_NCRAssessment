@@ -57,7 +57,7 @@
       </div>
 
    <div class="advsearchdiv" *ngIf="authService.isAdmin()">
-  <button class="advanceSearch" (click)="isAdvancedSearchVisible = !isAdvancedSearchVisible">
+  <button class="advanceSearch" (click)="toggleAdvancedSearch()">
     <span class="material-symbols-outlined">
       {{ isAdvancedSearchVisible ?  ' keyboard_arrow_down ' : 'chevron_right' }}
     </span>
@@ -144,7 +144,7 @@
   <label for="selectAll">Current Projects</label>
 </div>
 
-<div class="treeview-scroll-wrapper" *ngIf="isTreeExpanded">
+<div class="treeview-scroll-wrapper" *ngIf="isTreeExpanded" #treeWrapper>
     <kendo-treeview
     *ngIf="isTreeExpanded"
     [nodes]="filteredProjects"
