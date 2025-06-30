@@ -470,7 +470,7 @@ applyFilter(): void {
     label: 'Load Filter',
     children: [] // dynamically added Saved Filters
   },
-  { icon: 'help', label: 'Instructions to Use' }
+  { icon: 'help_outline', label: 'Instructions to Use' }
 ];
 
 
