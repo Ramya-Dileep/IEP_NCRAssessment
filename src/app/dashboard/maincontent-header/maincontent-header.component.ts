@@ -47,8 +47,7 @@ export class MaincontentHeaderComponent implements OnInit {
   tabButtons = [
     { label: 'NCR', value: 'NCR' },
     { label: 'NCM', value: 'NCM' },
-    { label: 'ECN', value: 'ECN' },
-    { label: 'ECR', value: 'ECR' },
+    { label: 'ECN/ECR', value: 'ECNECR' },
     { label: 'COQ', value: 'COQ' },
     { label: 'CCM', value: 'CCM' },
     { label: 'OTRDR', value: 'OTRDR' },
