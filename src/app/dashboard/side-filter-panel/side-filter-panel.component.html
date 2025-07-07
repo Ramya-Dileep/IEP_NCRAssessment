@@ -25,9 +25,10 @@
       <span class="material-icons-outlined parentIcon">{{ item.icon }}</span>
       <span class="label">{{ item.label }}</span>
        <!-- Show arrow if submenu exists -->
-    <span *ngIf="item.children?.length" class="material-icons expand-arrow">
-      {{ popupClass.includes('open-left') ? 'chevron_left' : 'chevron_right' }}
-    </span>
+ <span *ngIf="item.children?.length" class="material-icons expand-arrow">
+  chevron_right
+</span>
+
   </div>
 
   <!-- Submenu -->
@@ -53,6 +54,38 @@
     </div>
   </ng-container>
 </kendo-popup>
+
+<kendo-dialog *ngIf="isInstructionsDialogVisible" (close)="isInstructionsDialogVisible = false">
+  <kendo-dialog-titlebar>
+    Instructions to Use
+  </kendo-dialog-titlebar>
+
+  <div>
+    <p>Here are the steps to use this panel:</p>
+    <ol>
+      <li>Select filters using the Advanced Search.</li>
+      <li>Choose projects from the tree view.</li>
+      <li>Use the three-dot menu for Export/Save/Load options.</li>
+    </ol>
+  </div>
+
+</kendo-dialog>
+
+<kendo-excelexport
+  #excelExport
+  [data]="fullJobList"
+  [fileName]="'contracts-export.xlsx'"
+  [group]="[]"
+>
+  <kendo-excelexport-column *ngFor="let column of exportColumns"
+    [field]="column.field"
+    [title]="column.title"
+    [width]="200"
+  >
+  </kendo-excelexport-column>
+</kendo-excelexport>
+
+
 
 
   @if (!isCollapsed) {

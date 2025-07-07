@@ -11,6 +11,9 @@ import { TreeViewModule } from '@progress/kendo-angular-treeview';
 import { AuthService } from '../../service/auth.service';
 import { MultiSelectModule, KENDO_DROPDOWNS } from '@progress/kendo-angular-dropdowns';
 import { PopupModule } from '@progress/kendo-angular-popup';
+import { DialogsModule } from '@progress/kendo-angular-dialog';
+import { ExcelExportModule } from '@progress/kendo-angular-excel-export';
+
 
 interface PopupItem {
   icon?: string;
@@ -35,6 +38,8 @@ interface UploadedFile {
     MultiSelectModule,
     FormsModule,
     KENDO_DROPDOWNS,
+    DialogsModule,
+    ExcelExportModule,
     PopupModule
   ],
   templateUrl: './side-filter-panel.component.html',
@@ -461,6 +466,8 @@ applyFilter(): void {
   // Popup state & display data
   isThreeDotClick = false;
   popupStyle = 'popup-wrapper open-right';
+  popupClass = 'popup-wrapper open-right';
+
 
  popupItems: PopupItem[] = [
   { icon: 'grid_on', label: 'Export Contracts' },
@@ -486,7 +493,6 @@ applyFilter(): void {
   ];
 
   savedFilters: { name: string, values: Record<string, string[]> }[] = [];  savedFilterCount = 0;
-  exportColumns: string[] = [];
   exportData: any[] = []; // Replace with ContractExportDetail[] if needed
 
   // Toggle popup open/close
@@ -504,7 +510,7 @@ applyFilter(): void {
         this.exportContracts();
         break;
       case 'Save Filter':
-        this.saveCurrentFilter();
+        this.saveFilter();
         break;
       case 'Instructions to Use':
         this.showInstructionsDialog();
@@ -522,46 +528,36 @@ applyFilter(): void {
     }
   }
 
-   popupClass: string = 'open-left';
-
-  // Stubs for actions
-  exportContracts(): void {
-    console.log('Exporting contracts...');
-    // Add actual export logic here
-  }
 
   saveCurrentFilter(): void {
     console.log('Saving current filter...');
     // Add save logic here
   }
 
-  showInstructionsDialog(): void {
-    console.log('Showing instructions...');
-    // Add dialog/modal opening logic here
-  }
 
-
-saveFilter() {
+saveFilter(): void {
   const newFilterName = `Saved Filter ${this.savedFilters.length + 1}`;
-
-  const savedValues = JSON.parse(JSON.stringify(this.advanceSelectedValues)); // deep clone
+  const savedValues = JSON.parse(JSON.stringify(this.advanceSelectedValues));
 
   this.savedFilters.push({ name: newFilterName, values: savedValues });
 
-  // Find Load Filter item and add child
   const loadFilterItem = this.popupItems.find(item => item.label === 'Load Filter');
   if (loadFilterItem) {
     loadFilterItem.children = this.savedFilters.map(f => ({ label: f.name }));
   }
+
+  console.log(`✅ Saved new filter as "${newFilterName}"`, savedValues);
 }
 
-onItemClick(item: PopupItem) {
-  if (item.label.startsWith('Saved Filter')) {
-    const selected = this.savedFilters.find(f => f.name === item.label);
-    if (selected) {
-      this.advanceSelectedValues = JSON.parse(JSON.stringify(selected.values));
-      this.applyFilter(); // if needed
-    }
+
+onItemClick(item: PopupItem): void {
+  console.log('Loading filter:', item.label);
+  const selected = this.savedFilters.find(f => f.name === item.label);
+  if (selected) {
+    this.advanceSelectedValues = JSON.parse(JSON.stringify(selected.values));
+    this.applyFilter();
+  } else {
+    console.warn('No saved filter found for:', item.label);
   }
 }
 
@@ -603,5 +599,38 @@ updateCurrentProjectsCheckbox(): void {
     this.isCurrentProjectsSelected = allIds.length > 0 && allIds.every(id => this.selectedJobs.has(id));
   }
 }
+
+isInstructionsDialogVisible = false;
+
+showInstructionsDialog(): void {
+  this.isInstructionsDialogVisible = true;
+}
+
+@ViewChild('excelExport', { static: false }) excelExport: any;
+
+exportColumns = [
+  { field: 'parentProjectId', title: 'Contract ID' },
+  { field: 'jobNumber', title: 'Contract Name' },
+  { field: 'Delivery_Year', title: 'Delivery Year' },
+  { field: 'RAC_Year', title: 'RAC Year' },
+  { field: 'Project_Type', title: 'Project Type' },
+  { field: 'Category', title: 'Category' },
+  { field: 'Driver', title: 'Driver' },
+  { field: 'Driven', title: 'Driven' },
+  { field: 'Connector', title: 'Connector' }
+];
+
+exportContracts(): void {
+  if (!this.fullJobList || this.fullJobList.length === 0) {
+    console.warn('No data to export.');
+    return;
+  }
+
+  // Optional: filter or prepare jobFullList if needed
+  setTimeout(() => {
+    this.excelExport.save();
+  });
+}
+
 
 }
