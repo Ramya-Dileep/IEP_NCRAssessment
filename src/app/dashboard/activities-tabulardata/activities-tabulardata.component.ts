@@ -32,6 +32,7 @@ export class ActivitiesTabulardataComponent implements OnInit, OnChanges {
   @Input() fullscreenMode = false;
   @Output() fullscreenToggled = new EventEmitter<boolean>();
   @Input() SelectedContracts: string[] = [];
+  @Input() type: string = '';
 
   ispoData: any[] = [];
   filteredProjects: any[] = [];
@@ -51,11 +52,13 @@ export class ActivitiesTabulardataComponent implements OnInit, OnChanges {
   columns = [
   { field: 'name', title: 'Name', width: 150 },
   { field: 'username', title: 'Username', width: 120 },
-  { field: 'email', title: 'Email', width: 180 },
+  // { field: 'email', title: 'Email', width: 180 },
   { field: 'contract', title: 'Contract', width: 150 },
   { field: 'street', title: 'Street', width: 120 },
   { field: 'city', title: 'City', width: 120 },
-  { field: 'zipcode', title: 'Zipcode', width: 120 }
+  // { field: 'zipcode', title: 'Zipcode', width: 120 },
+  { field: 'year', title: 'Year', width: 120 },
+  { field: 'month', title: 'Month', width: 120 }
 ];
 
 columnFilters: { [key: string]: string[] } = {};
@@ -172,31 +175,62 @@ onDocumentClick(event: MouseEvent): void {
 
   constructor(private nbaService: TabulardataService,  private elRef: ElementRef) {}
 
+  // ngOnInit(): void {
+  //   this.loading = true;
+
+  //   this.nbaService.getTabledata().subscribe({
+  //     next: data => {
+  //       this.ispoData = data;
+  //       this.filterByContracts();
+  //       this.loading = false;
+  //     },
+  //     error: err => {
+  //       console.error('Error loading data', err);
+  //       this.loading = false;
+  //     }
+  //   });
+
+  //   this.searchControl.valueChanges.subscribe(term => {
+  //     this.applyFilter(term ?? '');
+  //   });
+  // }
+
   ngOnInit(): void {
-    this.loading = true;
+  this.loadDataBasedOnType();
 
-    this.nbaService.getTabledata().subscribe({
-      next: data => {
-        this.ispoData = data;
-        this.filterByContracts();
-        this.loading = false;
-      },
-      error: err => {
-        console.error('Error loading data', err);
-        this.loading = false;
-      }
-    });
+  this.searchControl.valueChanges.subscribe(term => {
+    this.applyFilter(term ?? '');
+  });
+}
 
-    this.searchControl.valueChanges.subscribe(term => {
-      this.applyFilter(term ?? '');
-    });
+
+ ngOnChanges(changes: SimpleChanges): void {
+  if ((changes['SelectedContracts'] && !changes['SelectedContracts'].firstChange) ||
+      (changes['type'] && !changes['type'].firstChange)) {
+    this.loadDataBasedOnType();  // 👈 custom method
   }
+}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['SelectedContracts'] && !changes['SelectedContracts'].firstChange) {
-      this.filterByContracts();
+private loadDataBasedOnType(): void {
+  this.loading = true;
+
+  const dataSource$ = this.type === 'Project'
+    ? this.nbaService.getPojectTabledata()
+    : this.nbaService.getTabledata();
+
+  dataSource$.subscribe({
+    next: data => {
+      this.ispoData = data;
+      this.filterByContracts();  // also filters by selected contracts
+      this.loading = false;
+    },
+    error: err => {
+      console.error('Error loading data', err);
+      this.loading = false;
     }
-  }
+  });
+}
+
 
   toggleFilter(column: string): void {
   this.activeFilterColumn = this.activeFilterColumn === column ? null : column;
