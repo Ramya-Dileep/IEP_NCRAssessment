@@ -1,0 +1,34 @@
+<kendo-popup
+  [anchor]="anchorRef.nativeElement"
+  [popupClass]="popupClass"
+  [collision]="{ horizontal: 'fit', vertical: 'flip' }"
+  [popupAlign]="{ horizontal: 'right', vertical: 'bottom' }"
+>
+  <div class="popup-item" *ngFor="let item of popupItems" (click)="onItemClick(item)">
+    <div class="popup-item-main">
+      <span class="material-icons-outlined parentIcon">{{ item.icon }}</span>
+      <span class="label">{{ item.label }}</span>
+      <span *ngIf="item.children?.length" class="material-icons expand-arrow">chevron_right</span>
+    </div>
+
+    <!-- Submenu -->
+    <div class="popup-submenu" *ngIf="activeItemWithChildren === item">
+      <div class="popup-subitem" *ngFor="let child of item.children" (click)="onChildClick(child)">
+        {{ child.label }}
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="uploadedFiles?.length">
+    <hr class="popup-separator" />
+    <div class="popup-info-header">
+      <span class="material-icons-outlined info-icon">info</span>
+      <span class="info-text">Last Uploaded Info</span>
+    </div>
+    <div class="popup-uploaded-info" *ngFor="let file of uploadedFiles">
+      <div class="file-name">{{ file.name }}</div>
+      <div class="file-date">: {{ file.date }}</div>
+    </div>
+  </ng-container>
+</kendo-popup>
+
