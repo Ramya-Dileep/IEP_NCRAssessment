@@ -8,9 +8,48 @@
         Clear Filter
       </span>
   
-    <span class="material-symbols-outlined">
+    <span class="material-symbols-outlined three-dot-icon"
+    #popupAnchor class="material-symbols-outlined three-dot-icon" 
+    [class.active]="isThreeDotClick" style="cursor: pointer;" 
+    (click)="toggleThreeDotPopup()">
         more_horiz
         </span>
+
+    <kendo-popup
+  *ngIf="isThreeDotClick"
+    [collision]="{ horizontal: 'fit', vertical: 'flip' }"
+  [popupAlign]="{ horizontal: 'right', vertical: 'top' }"
+  [anchorAlign]="{ horizontal: 'left', vertical: 'bottom' }"
+  [anchor]="popupAnchor"
+  [popupClass]="popupClass"
+>
+  <!-- Main Menu Items -->
+  <div class="popup-item" *ngFor="let item of popupItems" (click)="onPopupItemClick(item)">
+    <div class="popup-item-main">
+      <span class="material-icons-outlined parentIcon">{{ item.icon }}</span>
+      <span class="label">{{ item.label }}</span>
+
+      <!-- Submenu Arrow -->
+      <span *ngIf="item.children?.length" class="material-icons expand-arrow">
+        chevron_right
+      </span>
+    </div>
+
+    <!-- Submenu -->
+<div class="popup-submenu"
+     [ngClass]="popupClass.includes('open-left') ? 'popupSubMenuRight' : 'popupSubMenuLeft'"
+     *ngIf="item.label === 'Load Filter' ? loadFilterChildren.length : item.children?.length">
+
+  <div class="popup-subitem"
+       *ngFor="let child of (item.label === 'Load Filter' ? loadFilterChildren : item.children)"
+       (click)="onItemClick(child)">
+    {{ child.label }}
+  </div>
+</div>
+
+  </div>
+</kendo-popup>
+
 
       <span class="material-symbols-outlined"  (click)="togglePanel()">
         {{ userExpanded() ?  'keyboard_arrow_down' : 'keyboard_arrow_up' }}

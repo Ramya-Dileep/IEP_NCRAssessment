@@ -218,3 +218,142 @@
   padding: 0;
   pointer-events: none;
 }
+
+// Popup Wrapper
+::ng-deep .popup-wrapper {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  transform-origin: top center;
+  width: 380px;
+  z-index: 1000;
+}
+
+::ng-deep .popup-wrapper.open-above {
+  top: auto;
+  bottom: 100%;
+  transform-origin: bottom center;
+}
+
+::ng-deep .popup-wrapper.open-right {
+  direction: ltr;
+}
+
+::ng-deep .popup-wrapper.open-left {
+  direction: ltr !important;  // force LTR text flow for popup contents
+  left: auto !important;
+  right: 0;
+  top: 100%;
+  transform-origin: top right;
+  width: 200px;
+  background: white;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+}
+
+
+// Main Popup Items
+::ng-deep .popup-item {
+  position: relative;
+  cursor: pointer;
+}
+
+::ng-deep .popup-item-main {
+  display: flex;
+  align-items: center;
+  padding: 2px 16px;
+  transition: background-color 0.2s;
+}
+
+::ng-deep .popup-item-main:hover {
+  background-color: #C6F7E2;
+}
+
+::ng-deep .popup-item-main .parentIcon {
+  margin-right: 8px;
+  font-size: 18px;
+  color: grey;
+}
+
+::ng-deep .popup-item-main .label {
+  flex: 1;
+  color: #333;
+}
+
+::ng-deep .expand-arrow {
+  font-size: 18px;
+  color: #888;
+}
+
+// Submenu Styles
+::ng-deep .popup-submenu {
+  position: absolute;
+  top: 0;
+  background: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 180px;
+  z-index: 1001;
+}
+
+::ng-deep .popupSubMenuLeft {
+  left: 100%;
+}
+
+::ng-deep .popupSubMenuRight {
+  right: 100%;
+}
+
+::ng-deep .popup-subitem {
+  padding: 8px 16px;
+  white-space: nowrap;
+  cursor: pointer;
+  color: #333;
+}
+
+::ng-deep .popup-subitem:hover {
+  background-color: #f5f5f5;
+}
+
+// Optional Info Section
+::ng-deep .popup-separator {
+  margin: 8px 0;
+  border: 0;
+  height: 1px;
+  background: #e0e0e0;
+}
+
+::ng-deep .popup-info-header {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  font-weight: bold;
+  color: #444;
+}
+
+::ng-deep .info-icon {
+  font-size: 18px;
+  margin-right: 8px;
+  color: grey;
+}
+
+
+.three-dot-icon {
+  cursor: pointer;
+  border-radius: 50%;               // ✅ Makes it round
+  padding: 1px;                     // ✅ Adds spacing around icon
+  transition: background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: #CACACA;      // Light grey on hover
+  }
+
+  &.active {
+    background-color: #CACACA;      // Slightly darker grey when active
+  }
+}
+
+

@@ -1,10 +1,18 @@
-import { Component, Input, OnInit, SimpleChanges, effect, signal } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, effect, signal, ViewChild, ElementRef, HostListener  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ButtonsModule } from '@progress/kendo-angular-buttons'; 
 import { DropDownListModule, DropDownsModule, MultiSelectModule } from '@progress/kendo-angular-dropdowns';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { FilterStateService } from '../../service/filter-state.service';
+import { PopupModule } from '@progress/kendo-angular-popup';
+import { DialogsModule } from '@progress/kendo-angular-dialog';
+
+interface PopupItem {
+  icon?: string;
+  label: string;
+  children?: any[]
+}
 
 @Component({
   selector: 'app-filter-activities',
@@ -15,12 +23,17 @@ import { FilterStateService } from '../../service/filter-state.service';
     ReactiveFormsModule,
     DropDownsModule,
     MultiSelectModule,
-    TooltipModule
+    TooltipModule,
+    PopupModule,
+    DialogsModule
   ],
   templateUrl: './filter-activities.component.html',
   styleUrl: './filter-activities.component.scss'
 })
 export class FilterActivitiesComponent implements OnInit {
+popupStyle = 'popup-wrapper open-right';
+popupClass = 'popup-wrapper open-left';
+
   @Input() title = 'Panel Title';
 
   // Fullscreen mode controlled by parent component
@@ -59,8 +72,15 @@ export class FilterActivitiesComponent implements OnInit {
       if (!f.control || !f.data?.length) {
         console.warn(`Missing setup for filter:`, f.label);
       }
+
+        // Subscribe to value changes so programmatic changes also update view
+      f.control.valueChanges.subscribe(value => {
+        this.onSelectionChange(value, f.label); // simulate dropdown change
+      });
     });
+    
   }
+
 
   // Toggle panel expand/collapse state on user click
   togglePanel() {
@@ -119,7 +139,6 @@ export class FilterActivitiesComponent implements OnInit {
       data: [
         { text: 'Individual', value: 'Individual' },
         { text: 'Project', value: 'Project' },
-        { text: 'Office', value: 'Office' }
       ],
       default: { text: 'Individual', value: 'Individual' },
       control: new FormControl({ text: 'Individual', value: 'Individual' })
@@ -142,4 +161,98 @@ export class FilterActivitiesComponent implements OnInit {
     { label: 'FW 7, 2025 (Next Week)', value: 'nextweek', subtext: '4 out of 8 are not completed' },
     { label: 'FW 8, 2025', value: 'later', subtext: '4 out of 8 are not completed' },
   ];
+
+   @ViewChild('popupAnchor', { static: false }) popupAnchor!: ElementRef;
+
+  isThreeDotClick = false;
+  isInstructionsDialogVisible = false;
+
+  savedFilters: { name: string; values: any }[] = [];
+
+  popupItems: PopupItem[] = [
+  { icon: 'save', label: 'Save Filter' },
+  { icon: 'folder_open', label: 'Load Filter' }, // children dynamic
+  { icon: 'help_outline', label: 'Instructions to Use' }
+];
+
+get loadFilterChildren() {
+  return this.savedFilters.map(filter => ({
+    label: filter.name,
+    filterKey: filter.name
+  }));
+}
+
+
+  toggleThreeDotPopup(): void {
+    this.isThreeDotClick = !this.isThreeDotClick;
+  }
+
+  @HostListener('document:click', ['$event.target'])
+  onClickOutside(target: HTMLElement): void {
+    if (!this.popupAnchor?.nativeElement.contains(target)) {
+      this.isThreeDotClick = false;
+    }
+  }
+
+  onPopupItemClick(item: PopupItem): void {
+    this.isThreeDotClick = false;
+
+    switch (item.label) {
+      case 'Save Filter':
+        this.saveFilter();
+        break;
+      case 'Load Filter':
+        this.loadFilter();
+        break;
+      case 'Instructions to Use':
+        this.showInstructionsDialog();
+        break;
+    }
+  }
+
+ saveFilter(): void {
+  const values: any = {};
+  this.filters.forEach(f => {
+    const key = f.label.replace(/\s/g, ''); // Remove spaces from label for key
+    values[key] = f.control.value;
+  });
+
+  const newFilter = {
+    name: `Saved Filter${this.savedFilters.length + 1}`,
+    values
+  };
+  this.savedFilters.push(newFilter);
+  console.log('✅ Saved Filter:', newFilter);
+}
+
+onItemClick(item: any): void {
+  const filterToApply = this.savedFilters.find(f => f.name === item.filterKey);
+  if (filterToApply) {
+    Object.keys(filterToApply.values).forEach(key => {
+      const filter = this.filters.find(f => f.label.replace(/\s/g, '') === key);
+      if (filter) {
+        filter.control.setValue(filterToApply.values[key]);
+      }
+    });
+    console.log(`Applied saved filter: ${item.filterKey}`, filterToApply.values);
+  } else {
+    console.warn('Saved filter not found:', item.filterKey);
+  }
+  this.isThreeDotClick = false; // close popup after selecting
+}
+
+
+  loadFilter(): void {
+    if (this.savedFilters.length === 0) {
+      alert('No saved filters available.');
+      return;
+    }
+    const latest = this.savedFilters[this.savedFilters.length - 1];
+    console.log('📥 Loaded Filter:', latest);
+    // Apply values to your form or filter state here
+  }
+
+  showInstructionsDialog(): void {
+    this.isInstructionsDialogVisible = true;
+  }
 }
