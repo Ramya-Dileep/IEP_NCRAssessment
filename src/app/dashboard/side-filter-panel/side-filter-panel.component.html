@@ -91,6 +91,26 @@
   </kendo-excelexport-column>
 </kendo-excelexport>
 
+<kendo-dialog  *ngIf="isSaveFilterDialogVisible" (close)="isSaveFilterDialogVisible = false" title="Save Advance Filter">
+  <div class="p-4">
+    <label for="filterName">Enter a filter name:</label>
+    <input
+      id="filterName"
+      [(ngModel)]="newFilterNameInput"
+      type="text"
+      class="k-textbox"
+      style="width: 100%; margin-top: 8px;"
+      placeholder="e.g. My Quality Filter"
+    />
+  </div>
+
+  <kendo-dialog-actions>
+    <button kendoButton  style="width: 30px; height: 30px;" (click)="isSaveFilterDialogVisible = false">Cancel</button>
+    <button kendoButton style="width: 30px; height: 30px;" [disabled]="!newFilterNameInput.trim()" (click)="confirmSaveFilter()" themeColor="primary">
+      Save
+    </button>
+  </kendo-dialog-actions>
+</kendo-dialog>
 
 
 

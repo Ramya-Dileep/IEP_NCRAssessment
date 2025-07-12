@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges, effect, signal, ViewChild, ElementRef, HostListener, Output, EventEmitter  } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonsModule } from '@progress/kendo-angular-buttons'; 
 import { DropDownListModule, DropDownsModule, MultiSelectModule } from '@progress/kendo-angular-dropdowns';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
@@ -25,7 +25,8 @@ interface PopupItem {
     MultiSelectModule,
     TooltipModule,
     PopupModule,
-    DialogsModule
+    DialogsModule,
+    FormsModule
   ],
   templateUrl: './filter-activities.component.html',
   styleUrl: './filter-activities.component.scss'
@@ -200,7 +201,8 @@ get loadFilterChildren() {
 
     switch (item.label) {
       case 'Save Filter':
-        this.saveFilter();
+        this.newFilterNameInput = '';
+        this.isSaveFilterDialogVisible = true;
         break;
       case 'Load Filter':
         this.loadFilter();
@@ -256,4 +258,26 @@ onItemClick(item: any): void {
   showInstructionsDialog(): void {
     this.isInstructionsDialogVisible = true;
   }
+
+  // implement dialog for saved filter
+  isSaveFilterDialogVisible = false;
+  newFilterNameInput = '';
+
+  confirmSaveFilter(): void {
+  const trimmedName = this.newFilterNameInput.trim();
+  if (!trimmedName) return;
+
+  const values: any = {};
+  this.filters.forEach(f => {
+    const key = f.label.replace(/\s/g, '');
+    values[key] = f.control.value;
+  });
+
+  const newFilter = { name: trimmedName, values };
+  this.savedFilters.push(newFilter);
+
+  console.log(`✅ Saved Filter as "${trimmedName}"`, newFilter);
+  this.isSaveFilterDialogVisible = false;
+}
+
 }

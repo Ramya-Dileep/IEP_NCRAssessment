@@ -510,7 +510,8 @@ applyFilter(): void {
         this.exportContracts();
         break;
       case 'Save Filter':
-        this.saveFilter();
+        this.newFilterNameInput = ''; // reset input
+      this.isSaveFilterDialogVisible = true; // open dialog
         break;
       case 'Instructions to Use':
         this.showInstructionsDialog();
@@ -630,6 +631,27 @@ exportContracts(): void {
   setTimeout(() => {
     this.excelExport.save();
   });
+}
+
+//implement dialog to  save the filter values
+
+isSaveFilterDialogVisible = false;
+newFilterNameInput = '';
+
+confirmSaveFilter(): void {
+  const trimmedName = this.newFilterNameInput.trim();
+  if (!trimmedName) return;
+
+  const savedValues = JSON.parse(JSON.stringify(this.advanceSelectedValues));
+  this.savedFilters.push({ name: trimmedName, values: savedValues });
+
+  const loadFilterItem = this.popupItems.find(item => item.label === 'Load Filter');
+  if (loadFilterItem) {
+    loadFilterItem.children = this.savedFilters.map(f => ({ label: f.name }));
+  }
+
+  this.isSaveFilterDialogVisible = false;
+  console.log(`✅ Saved filter as "${trimmedName}"`, savedValues);
 }
 
 
