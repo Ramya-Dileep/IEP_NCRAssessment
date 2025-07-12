@@ -20,6 +20,7 @@ import {
   State
 } from '@progress/kendo-data-query';
 import { CommonModule } from '@angular/common';
+import { FilterStateService } from '../../service/filter-state.service';
 
 @Component({
   selector: 'app-activities-tabulardata',
@@ -33,12 +34,18 @@ export class ActivitiesTabulardataComponent implements OnInit, OnChanges {
   @Output() fullscreenToggled = new EventEmitter<boolean>();
   @Input() SelectedContracts: string[] = [];
   @Input() type: string = '';
+  @Input() selectedMonthYear: string = ''; // e.g., "February 2023"
+  @Input() openedFromChart = false; // <-- NEW input
+@Output() closeTabularView = new EventEmitter<void>(); // <-- NEW output
+
+
 
   ispoData: any[] = [];
   filteredProjects: any[] = [];
   pagedData: GridDataResult = { data: [], total: 0 };
   searchControl = new FormControl('');
   loading = false;
+  title :string = "Activities";
 
   skip = 0;
   pageSize = 5;
@@ -173,7 +180,7 @@ onDocumentClick(event: MouseEvent): void {
     return this.fullscreenMode;
   }
 
-  constructor(private nbaService: TabulardataService,  private elRef: ElementRef) {}
+  constructor(private nbaService: TabulardataService, public filterState: FilterStateService, private elRef: ElementRef) {}
 
   // ngOnInit(): void {
   //   this.loading = true;
@@ -203,13 +210,25 @@ onDocumentClick(event: MouseEvent): void {
   });
 }
 
+ngOnChanges(changes: SimpleChanges): void {
+  // Dynamically update the title
+  if (this.openedFromChart && this.selectedMonthYear) {
+    this.title = `Tabular View - ${this.selectedMonthYear}`;
+  } else {
+    this.title = 'Activities';
+  }
 
- ngOnChanges(changes: SimpleChanges): void {
-  if ((changes['SelectedContracts'] && !changes['SelectedContracts'].firstChange) ||
-      (changes['type'] && !changes['type'].firstChange)) {
-    this.loadDataBasedOnType();  // 👈 custom method
+  // Refresh data if any input changes
+  if (
+    changes['SelectedContracts'] ||
+    changes['type'] ||
+    changes['selectedMonthYear'] ||
+    changes['activeMode']
+  ) {
+    this.loadDataBasedOnType();
   }
 }
+
 
 private loadDataBasedOnType(): void {
   this.loading = true;
@@ -221,15 +240,85 @@ private loadDataBasedOnType(): void {
   dataSource$.subscribe({
     next: data => {
       this.ispoData = data;
-      this.filterByContracts();  // also filters by selected contracts
+
+      // 🔍 Console logs for debugging
+      const currentViewType = this.filterState.viewType();
+      const currentDataType = this.filterState.dataType();
+      const selectedMonthYear = this.selectedMonthYear;
+      const openedFromChart = this.openedFromChart;
+
+      console.log('--- 🔎 Debug Info: loadDataBasedOnType() ---');
+      console.log('View Type:', currentViewType);
+      console.log('Data Type:', currentDataType);
+      console.log('Selected Month-Year:', selectedMonthYear);
+      console.log('Selected Contracts:', this.SelectedContracts);
+      console.log('Opened From Chart:', openedFromChart);
+      console.log('Raw Data Count:', data.length);
+      console.log('--------------------------------------------------');
+
+      // Step 1: Filter by selected contracts
+      let filtered = this.SelectedContracts.length > 0
+        ? data.filter(d => this.SelectedContracts.includes(d.contract))
+        : [];
+
+      console.log('After contract filter:', filtered.length);
+
+      // Step 2: Apply month-year filter only when it was a chart click
+      const [month, year] = selectedMonthYear?.split(' ') ?? [];
+      const applyMonthYearFilter = openedFromChart && currentViewType === 'Tabular' && month && year;
+
+      if (applyMonthYearFilter) {
+        filtered = filtered.filter(d => d.month === month && +d.year === +year);
+        console.log(`After month-year filter (${month} ${year}):`, filtered.length);
+      }
+
+      // Step 3: Assign filtered data
+      this.filteredProjects = filtered;
+      this.skip = 0;
+      this.loadPagedData();
       this.loading = false;
+
+      console.log('✅ Final Filtered Data Count:', this.filteredProjects.length);
     },
     error: err => {
-      console.error('Error loading data', err);
+      console.error('❌ Error loading data', err);
       this.loading = false;
     }
   });
 }
+
+
+
+
+
+//commenting for implementing bar chart click
+
+//  ngOnChanges(changes: SimpleChanges): void {
+//   if ((changes['SelectedContracts'] && !changes['SelectedContracts'].firstChange) ||
+//       (changes['type'] && !changes['type'].firstChange)) {
+//     this.loadDataBasedOnType();  // 👈 custom method
+//   }
+// }
+
+// private loadDataBasedOnType(): void {
+//   this.loading = true;
+
+//   const dataSource$ = this.type === 'Project'
+//     ? this.nbaService.getPojectTabledata()
+//     : this.nbaService.getTabledata();
+
+//   dataSource$.subscribe({
+//     next: data => {
+//       this.ispoData = data;
+//       this.filterByContracts();  // also filters by selected contracts
+//       this.loading = false;
+//     },
+//     error: err => {
+//       console.error('Error loading data', err);
+//       this.loading = false;
+//     }
+//   });
+// }
 
 
   toggleFilter(column: string): void {
@@ -326,5 +415,10 @@ exportToExcel(): void {
     this.excelExport.save();
   }
 }
+
+onCloseClicked(): void {
+  this.closeTabularView.emit(); // Notify parent to switch to chart
+}
+
 }
 

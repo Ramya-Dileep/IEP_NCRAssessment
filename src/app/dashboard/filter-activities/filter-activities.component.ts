@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges, effect, signal, ViewChild, ElementRef, HostListener  } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, effect, signal, ViewChild, ElementRef, HostListener, Output, EventEmitter  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ButtonsModule } from '@progress/kendo-angular-buttons'; 
@@ -33,6 +33,8 @@ interface PopupItem {
 export class FilterActivitiesComponent implements OnInit {
 popupStyle = 'popup-wrapper open-right';
 popupClass = 'popup-wrapper open-left';
+@Output() viewChanged = new EventEmitter<string>();
+
 
   @Input() title = 'Panel Title';
 
@@ -114,6 +116,7 @@ popupClass = 'popup-wrapper open-left';
   onSelectionChange(value: any, label: string) {
     if (label === 'View As') {
       this.filterState.updateViewType(value.value);
+        this.viewChanged.emit(value.value);
     } else if (label === 'Type') {
       this.filterState.updateDataType(value.value);
     }

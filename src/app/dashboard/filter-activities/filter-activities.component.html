@@ -50,6 +50,28 @@
   </div>
 </kendo-popup>
 
+<kendo-dialog *ngIf="isInstructionsDialogVisible" (close)="isInstructionsDialogVisible = false">
+  <kendo-dialog-titlebar>
+    Instructions to Use
+  </kendo-dialog-titlebar>
+
+  <div>
+    <p>Here are the steps to use this panel:</p>
+    <ol>
+      <li>Select filters using the Filter Activities.</li>
+      <li>Choose View As and Type from the Filter Activities.</li>
+      <li>This will filter the tabular and chart data.</li>
+    </ol>
+  </div>
+
+ <kendo-dialog-actions>
+    <button style="width: 30px; height: 30px; border-color: black; border-radius: 0px;" kendoButton (click)="isInstructionsDialogVisible = false" >
+      OK
+    </button>
+  </kendo-dialog-actions>
+
+</kendo-dialog>
+
 
       <span class="material-symbols-outlined"  (click)="togglePanel()">
         {{ userExpanded() ?  'keyboard_arrow_down' : 'keyboard_arrow_up' }}

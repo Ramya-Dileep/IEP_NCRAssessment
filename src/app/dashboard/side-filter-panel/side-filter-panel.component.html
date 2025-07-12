@@ -21,7 +21,7 @@
   [popupClass]="popupStyle"
 >
   <div class="popup-item" *ngFor="let item of popupItems" (click)="onPopupItemClick(item)">
-    <div class="popup-item-main">
+    <div class="popup-item-main1">
       <span class="material-icons-outlined parentIcon">{{ item.icon }}</span>
       <span class="label">{{ item.label }}</span>
        <!-- Show arrow if submenu exists -->
@@ -68,6 +68,12 @@
       <li>Use the three-dot menu for Export/Save/Load options.</li>
     </ol>
   </div>
+
+ <kendo-dialog-actions>
+    <button style="width: 30px; height: 30px; " kendoButton (click)="isInstructionsDialogVisible = false" themeColor="primary">
+      OK
+    </button>
+  </kendo-dialog-actions>
 
 </kendo-dialog>
 

@@ -625,25 +625,25 @@
   cursor: pointer;
 }
 
-::ng-deep .popup-item-main {
+::ng-deep .popup-item-main1 {
   display: flex;
   align-items: center;
-  padding: 8px 16px;
+  padding:12px 16px 4px 16px;
   transition: background 0.2s;
 }
 
-::ng-deep .popup-item-main:hover {
-  background-color: #f0f0f0;
+::ng-deep .popup-item-main1:hover {
+  background-color: #C6F7E2;
 }
 
-::ng-deep .popup-item-main .parentIcon {
+::ng-deep .popup-item-main1 .parentIcon {
     margin-right: 8px;
     font-size: 18px;
     color: grey;
 
 }
 
-::ng-deep .popup-item-main .label {
+::ng-deep .popup-item-main1 .label {
   flex: 1;
   color: #333;
 }
@@ -695,7 +695,7 @@
 ::ng-deep .popup-info-header {
   display: flex;
   align-items: center;
-  padding: 8px 16px;
+  padding: 10px 16px;
   font-weight: bold;
   color: #444;
 }
@@ -750,6 +750,25 @@
     background-color: #CACACA;      // Slightly darker grey when active
   }
 }
+
+::ng-deep .popup-wrapper {
+  padding-bottom: 8px;
+}
+
+::ng-deep .k-dialog-titlebar {
+    border-color: inherit;
+    color: var(--kendo-color-on-app-surface, #3d3d3d);
+    background-color: var(--kendo-color-surface, #fafafa);
+    background-color:#157D64;
+    color: white;
+}
+
+// ::ng-deep .popup-item:first-child {
+//   padding-top: 10px; // Adjust as needed
+// }
+
+
+
 
 
 

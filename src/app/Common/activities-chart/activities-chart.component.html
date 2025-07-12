@@ -1,0 +1,66 @@
+ <div class="chartdiv">
+ 
+ <div class="header">
+    <span>NCR</span>
+</div>
+
+<kendo-chart (seriesClick)="onBarClick($event)">
+  <kendo-chart-category-axis>
+    <kendo-chart-category-axis-item
+      [categories]="categories"
+      >
+    </kendo-chart-category-axis-item>
+  </kendo-chart-category-axis>
+
+  <kendo-chart-value-axis>
+    <kendo-chart-value-axis-item [title]="{ text: 'NCR Count' }">
+    </kendo-chart-value-axis-item>
+  </kendo-chart-value-axis>
+
+  <kendo-chart-series>
+    <kendo-chart-series-item
+      [data]="counts"
+      color="#1373AD"
+     [spacing]="0.3"  
+     [gap]="2"       
+      type="column">
+    </kendo-chart-series-item>
+  </kendo-chart-series>
+</kendo-chart>
+
+<div class="kendoPagerDiv">
+           <!-- <kendo-pager
+            class="chart-toolbar"
+            [pageSize]="pageSize"
+            [skip]="currentPage"
+            [total]="chartData.length"
+            [attr.aria-controls]="contentId"
+            [info]="false"
+            [previousNext]="true"
+            (pageChange)="onPageChange($event)">
+            </kendo-pager> -->
+            <kendo-pager
+  class="chart-toolbar"
+  [pageSize]="pageSize"
+  [skip]="currentPage"
+  [total]="chartData.length"
+  [info]="false"
+  [previousNext]="true"
+  (pageChange)="onPageChange($event)">
+</kendo-pager>
+
+<!-- <ng-template kendoPagerTemplate>
+        <kendo-pager-spacer></kendo-pager-spacer>
+        <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+        <kendo-pager-numeric-buttons
+          [buttonCount]="3"
+        ></kendo-pager-numeric-buttons>
+        <kendo-pager-next-buttons></kendo-pager-next-buttons>
+        <kendo-pager-info></kendo-pager-info>
+      </ng-template> -->
+
+        </div>
+</div>
+
+
+

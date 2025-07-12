@@ -145,10 +145,7 @@
 
     @if (!fullscreenMode)
     {
-    <!-- <div class="projectName" [title]="ProjectName">
-      {{ ProjectName }}
-    </div> -->
-
+ 
     <div class="projectName" [title]="ProjectName">
       <span class="projectText">{{ ProjectName }}</span>
     </div>
@@ -165,17 +162,28 @@
     </div>
   }
 
-    <app-filter-activities title="Filter Activities"  [collapsed]="fullscreenMode"></app-filter-activities>
+    <app-filter-activities title="Filter Activities" (viewChanged)="onViewChanged($event)" [collapsed]="fullscreenMode"></app-filter-activities>
 
-
+  <!-- *ngIf="filterState.viewType() === 'Tabular'"   -->
     <div class="scrollable-content">
       <app-activities-tabulardata
-        *ngIf="isTabular()"       
+        *ngIf="isTabular()"
         [fullscreenMode]="fullscreenMode"
         (fullscreenToggled)="toggleFullscreen()"
         [SelectedContracts] = "SelectedContracts"
+        [selectedMonthYear]="selectedMonthYear()"
         [type]="selectedType()"
+         [openedFromChart]="openedFromChart"
+        (closeTabularView)="switchToChart()"
       ></app-activities-tabulardata>
+
+        <!-- *ngIf="filterState.viewType() === 'Chart'" -->
+    <app-activities-chart
+    *ngIf="isChart()"
+    [type]="selectedType()"
+    [SelectedContracts] = "SelectedContracts"
+    (barClicked)="onBarClick($event)">
+  </app-activities-chart>
     </div>
   } @else {
     <div class="coming-soon">

@@ -50,6 +50,12 @@
                 font-weight: bold;
                 transition: background 0.2s;
             }
+            .close-icon {
+              cursor: pointer;
+              margin-left: -8px;
+            }
+
+        
             // .search-input {
             //     flex: 1; /* auto-grow */
             //     padding: 6px 10px;

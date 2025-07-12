@@ -1,0 +1,117 @@
+.chartdiv{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 12px;
+    overflow: hidden;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+
+    .header {
+        background-color: white;
+        font-weight: bold;
+        height: 25px;
+        flex-shrink: 0;
+        padding: 8px 16px;
+        display: flex;
+        align-items: center;
+        color: black;
+        border-top: 1px solid #ccc; 
+        border-bottom: 1px solid #ccc;
+        border-radius: 0;
+}
+}
+.kendoPagerDiv {
+  height: 15%;
+  width: 100%;
+  display: flex;
+  padding-right: 8px;
+  padding-bottom: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: white;
+}
+
+
+::ng-deep .k-button-flat {
+  width: 25px;
+  height: 25px;
+  color: black !important;
+  cursor: pointer;
+}
+
+::ng-deep .k-chart{
+  margin-left: 10px;
+}
+
+// ::ng-deep .k-pager .k-button {
+//   background-color: #e4fcf2 !important;
+//   border-color: gray !important;
+// }
+
+// ::ng-deep .k-pager .k-button.k-selected {
+//   border-color: gray !important;
+//   background-color: #02A783 !important;
+//   color: white !important;
+// }
+
+.kendoPagerDiv {
+  padding: 8px 12px;
+  background-color: #fff;
+  justify-content: flex-end;
+}
+
+.chart-toolbar {
+  border: none;
+  background: none;
+}
+
+::ng-deep .k-button-flat {
+  width: auto;
+  height: auto;
+}
+
+// ::ng-deep .k-pager {
+//   font-size: 13px;
+//   padding: 4px 0;
+//   align-items: center;
+//   background-color: white;
+  
+
+// }
+
+// ::ng-deep .k-pager .k-pager-nav .k-dropdown {
+//   display: none !important;
+// }
+
+
+// ::ng-deep .k-pager-sizes {
+//     display: none;
+// }
+
+.chart-toolbar.k-pager-input {
+    display: none !important;
+}
+
+// ::ng-deep .k-pager-numbers {
+//     cursor: inherit;
+//     z-index: 2;
+// }
+
+// ::ng-deep .k-hidden {
+//   display: contents !important;
+//   transition: none;
+// }
+
+// ::ng-deep .k-pager .k-pager-numbers {
+//   display: flex !important;
+//   visibility: visible !important;
+//   opacity: 1 !important;
+// }
+
+
+
+
+
+

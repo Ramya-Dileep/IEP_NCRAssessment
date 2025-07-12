@@ -1,6 +1,6 @@
 <div class="tabulardiv">
   <div class="header">
-    <span>Activities</span>
+    <span>{{title}}</span>
     <span class="results-summary">Results: {{ filteredProjects.length }} Activities
 </span>
     <div class="nav-actions">
@@ -36,6 +36,14 @@
 
       <span class="material-symbols-outlined">settings</span>
 
+      <span 
+      class="material-symbols-outlined close-icon" 
+      *ngIf="openedFromChart"
+      (click)="onCloseClicked()"
+      title="Close tabular view"
+    >
+      close
+    </span>
      
     </div>
   </div>
