@@ -3,7 +3,7 @@
     border: 1px solid #ccc;
     margin-bottom: 12px;
     overflow: hidden;
-    height: 60%;
+    height: 50%;
     display: flex;
     flex-direction: column;
     background-color: white;
@@ -72,14 +72,27 @@
   height: auto;
 }
 
-// ::ng-deep .k-pager {
-//   font-size: 13px;
-//   padding: 4px 0;
-//   align-items: center;
-//   background-color: white;
+.custom-pager-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+  border: none;
+}
+
+::ng-deep kendo-pager .k-hidden {
+  display: inline-block !important;
+}
+
+
+::ng-deep .k-pager {
+  font-size: 13px;
+  padding: 4px 0;
+  align-items: center;
+  background-color: white;
+  border: none;
   
 
-// }
+}
 
 // ::ng-deep .k-pager .k-pager-nav .k-dropdown {
 //   display: none !important;
@@ -90,9 +103,9 @@
 //     display: none;
 // }
 
-.chart-toolbar.k-pager-input {
-    display: none !important;
-}
+// .chart-toolbar.k-pager-input {
+//     display: none !important;
+// }
 
 // ::ng-deep .k-pager-numbers {
 //     cursor: inherit;

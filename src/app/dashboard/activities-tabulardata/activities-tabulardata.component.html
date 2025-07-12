@@ -103,6 +103,15 @@
       </div>
     </ng-template>
   </kendo-grid-column>
+   <!-- ✅ Custom pager -->
+ <ng-template kendoPagerTemplate>
+        <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+        <kendo-pager-numeric-buttons
+          [buttonCount]="3"
+        ></kendo-pager-numeric-buttons>
+        <kendo-pager-next-buttons></kendo-pager-next-buttons>
+      </ng-template>
+
 </kendo-grid>
 
 <!-- Popup outside grid -->

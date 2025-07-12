@@ -29,17 +29,8 @@
 </kendo-chart>
 
 <div class="kendoPagerDiv">
-           <!-- <kendo-pager
-            class="chart-toolbar"
-            [pageSize]="pageSize"
-            [skip]="currentPage"
-            [total]="chartData.length"
-            [attr.aria-controls]="contentId"
-            [info]="false"
-            [previousNext]="true"
-            (pageChange)="onPageChange($event)">
-            </kendo-pager> -->
-            <kendo-pager
+         
+            <!-- <kendo-pager
   class="chart-toolbar"
   [pageSize]="pageSize"
   [skip]="currentPage"
@@ -47,17 +38,28 @@
   [info]="false"
   [previousNext]="true"
   (pageChange)="onPageChange($event)">
-</kendo-pager>
+</kendo-pager> -->
+<div class="custom-pager-container">
+  <kendo-pager
+  [skip]="currentPage"
+  [pageSize]="pageSize"
+  [total]="chartData.length"
+  (pageChange)="onPageChange($event)"
+  [buttonCount]="5"
+  [info]="false"
+  [previousNext]="true"
+  [type]="'numeric'"
+  [style.text-align]="'right'"
+>
+    
+    <ng-template kendoPagerTemplate>
+      <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+      <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
+      <kendo-pager-next-buttons></kendo-pager-next-buttons>
+    </ng-template>
 
-<!-- <ng-template kendoPagerTemplate>
-        <kendo-pager-spacer></kendo-pager-spacer>
-        <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
-        <kendo-pager-numeric-buttons
-          [buttonCount]="3"
-        ></kendo-pager-numeric-buttons>
-        <kendo-pager-next-buttons></kendo-pager-next-buttons>
-        <kendo-pager-info></kendo-pager-info>
-      </ng-template> -->
+  </kendo-pager>
+</div>
 
         </div>
 </div>

@@ -3,7 +3,7 @@
     border: 1px solid #ccc;
     margin-bottom: 12px;
     overflow: hidden;
-    height: 50%;
+    height: 45%;
     display: flex;
     flex-direction: column;
 
@@ -304,13 +304,15 @@
 
 }
 
-::ng-deep.k-pager-info {
-    text-align: end;
-    margin-right: 10px !important;
-    justify-content: flex-end;
-    flex: 1 1 0%;
-    order: 9;
+
+
+::ng-deep.k-grid-pager {
+    border-width: 1px 0 0;
+    border-color: inherit;
+    font-size: inherit;
+    justify-content: flex-end !important;
 }
+
 
 ::ng-deep.k-link, .k-link:hover {
     color: inherit;

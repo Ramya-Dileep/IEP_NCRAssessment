@@ -30,109 +30,47 @@ export class ActivitiesChartComponent {
   public categories: string[] = [];
   public counts: number[] = [];
   chartData: ChartItem[] = [];
-
-  // chartData: ChartItem[] = [
-  //   { year: 2023, month: 'January', count: 10 },
-  //   { year: 2023, month: 'February', count: 15 },
-  //   { year: 2023, month: 'March', count: 8 },
-  //     { year: 2023, month: 'April', count: 10 },
-  //   { year: 2023, month: 'May', count: 15 },
-  //   { year: 2023, month: 'June', count: 8 },
-  //   // Add as many as you want
-  // ];
-
- constructor(private chartService: ChartdataService) {}
+  skip = 0; // This is the same as currentPage, needed for binding with <kendo-pager>
 
 
-  fetchChartData(): void {
-    this.chartService.getChartdata().subscribe((data: ChartItem[]) => {
-      this.chartData = data;
-      this.updatePageData(); // prepare the chart with paginated data
-    });
-  }
-  
-ngOnInit(): void {
-  this.loadChartData(); // only this
-}
+  constructor(private chartService: ChartdataService) {}
 
-// new code changes
-
-ngOnChanges(changes: SimpleChanges): void {
-  if (changes['type'] || changes['SelectedContracts']) {
+  ngOnInit(): void {
     this.loadChartData();
   }
-}
 
-
-loadChartData(): void {
-   const data$ = this.type === 'Project'
-    ? this.chartService.getPojectChartdata()
-    : this.chartService.getChartdata();
-
-     data$.subscribe((data: ContractChart[]) => {
-    console.log('All data:', data);
-    console.log('SelectedContracts:', this.SelectedContracts);
-
-    if (!this.SelectedContracts?.length) {
-      this.chartData = [];
-    } else {
-      const matched = data.filter(item =>
-        this.SelectedContracts.includes(item.contract)
-      );
-
-      console.log('Matched data:', matched);
-
-      this.chartData = matched.flatMap(item => item.chartData);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['type'] || changes['SelectedContracts']) {
+      this.loadChartData();
     }
+  }
 
-    this.prepareChartData();
-    this.currentPage = 0;
-    this.updatePageData();
-  });
-}
+  loadChartData(): void {
+    const data$ = this.type === 'Project'
+      ? this.chartService.getPojectChartdata()
+      : this.chartService.getChartdata();
 
+    data$.subscribe((data: ContractChart[]) => {
+      console.log('All data:', data);
+      console.log('SelectedContracts:', this.SelectedContracts);
 
+      if (!this.SelectedContracts?.length) {
+        this.chartData = [];
+      } else {
+        const matched = data.filter(item =>
+          this.SelectedContracts.includes(item.contract)
+        );
 
-// commenting for implementing selected contract change with chart data
+        console.log('Matched data:', matched);
 
-// ngOnChanges(changes: SimpleChanges): void {
-//   if (changes['type'] && !changes['type'].firstChange) {
-//     console.log("type", this.type)
-//     this.loadChartData(); // reload based on updated input
-//   }
-// }
+        this.chartData = matched.flatMap(item => item.chartData);
+      }
 
-// loadChartData(): void {
-//   const data$ = this.type === 'Project'
-//     ? this.chartService.getPojectChartdata()
-//     : this.chartService.getChartdata();
-
-//   data$.subscribe((data: ChartItem[]) => {
-//     this.chartData = data;
-//     this.prepareChartData();  // optional sorting
-//     this.currentPage = 0;     // reset pager
-//     this.updatePageData();    // slice for page
-//   });
-// }
-
-
-//  ngOnInit(): void {
-
-//     this.fetchChartData();
-
-//     // This handles initial load
-//     if (this.chartData?.length) {
-//       this.prepareChartData();
-//       this.updatePageData(); 
-//     }
-//   }
-
-//   ngOnChanges(changes: SimpleChanges): void {
-//     // This handles future changes to @Input() chartData
-//     if (changes['chartData'] && changes['chartData'].currentValue?.length > 0) {
-//       this.prepareChartData();
-//     }
-//   }
+      this.prepareChartData();
+      this.currentPage = 0;
+      this.updatePageData();
+    });
+  }
 
   private prepareChartData(): void {
     const monthOrder: { [month: string]: number } = {
@@ -144,60 +82,33 @@ loadChartData(): void {
       if (a.year !== b.year) return a.year - b.year;
       return monthOrder[a.month] - monthOrder[b.month];
     });
-
-    this.categories = this.chartData.map(d => `${d.month} ${d.year}`);
-    this.counts = this.chartData.map(d => d.count);
   }
 
   onBarClick(e: any): void {
-     console.log('Bar clicked:', e);
+    console.log('Bar clicked:', e);
     this.barClicked.emit(e.category);
   }
 
-// In your component class
+  // Paging controls
+  pageSize = 5;
+  currentPage = 0;
+  pageSizes = [5, 10, 20];
+  info = false;
+  prevNext = true;
+  Pagetype: PagerType = 'numeric';
+  contentId = 'chartContent';
 
-// How many bars per page
-pageSize = 5; 
+  onPageChange(event: { skip: number; take: number }) {
+    this.currentPage = event.skip;
+    this.pageSize = event.take;
+    this.updatePageData();
+  }
 
-// Current skip count (items to skip)
-currentPage = 0; // kendo-pager expects skip, so initialize at 0
-
-// Optional: page size options for user to select from
-pageSizes = [5, 10, 20]; 
-
-// Whether to show info text ("Page 1 of N")
-info = false; 
-
-// Show previous/next buttons
-prevNext = true;
-
-// Pager type, e.g., numeric or input (optional)
-Pagetype: PagerType = "numeric"; // or 'input', 'numeric', etc.
-
-// contentId for aria-controls - optional for accessibility
-contentId = 'chartContent'; // your chart container id
-
-// When the user changes page or page size
-onPageChange(event: { skip: number; take: number }) {
-  this.currentPage = event.skip;  // skip is number of items to skip (e.g., 0, 5, 10, ...)
-  this.pageSize = event.take;     // take is page size
-  this.updatePageData();
-}
-
-updatePageData() {
-  // Calculate start and end indexes of the current page slice
-  const start = this.currentPage;
-  const end = start + this.pageSize;
-
-  // Slice your main chartData to the page subset
-  const pageData = this.chartData.slice(start, end);
-
-  // Update categories and counts arrays used by the chart
-  this.categories = pageData.map(d => `${d.month} ${d.year}`);
-  this.counts = pageData.map(d => d.count);
-}
-
-// Make sure to call updatePageData() whenever chartData input changes or onInit
-
-
+  updatePageData() {
+    const start = this.currentPage;
+    const end = start + this.pageSize;
+    const pageData = this.chartData.slice(start, end);
+    this.categories = pageData.map(d => `${d.month} ${d.year}`);
+    this.counts = pageData.map(d => d.count);
+  }
 }
