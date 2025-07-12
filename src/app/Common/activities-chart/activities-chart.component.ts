@@ -51,8 +51,6 @@ export class ActivitiesChartComponent {
       : this.chartService.getChartdata();
 
     data$.subscribe((data: ContractChart[]) => {
-      console.log('All data:', data);
-      console.log('SelectedContracts:', this.SelectedContracts);
 
       if (!this.SelectedContracts?.length) {
         this.chartData = [];
@@ -60,8 +58,6 @@ export class ActivitiesChartComponent {
         const matched = data.filter(item =>
           this.SelectedContracts.includes(item.contract)
         );
-
-        console.log('Matched data:', matched);
 
         this.chartData = matched.flatMap(item => item.chartData);
       }
@@ -85,7 +81,6 @@ export class ActivitiesChartComponent {
   }
 
   onBarClick(e: any): void {
-    console.log('Bar clicked:', e);
     this.barClicked.emit(e.category);
   }
 

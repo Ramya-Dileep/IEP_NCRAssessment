@@ -60,15 +60,11 @@ export class MaincontentHeaderComponent implements OnInit {
 
   constructor(private fb: FormBuilder, public authService : AuthService, public filterState :  FilterStateService) {}
 
-  ngOnInit(): void {
-    const group: any = {};
-    this.form = this.fb.group(group);
-     effect(() => {
-    if (this.filterState.viewType() === 'Tabular' && !this.selectedMonthYear) {
-      this.openedFromChart = false; // Reset flag if manually selected tabular
-    }
-  });
-  }
+ ngOnInit(): void {
+  const group: any = {};
+  this.form = this.fb.group(group);
+}
+
 
   isTabular = computed(() => this.filterState.viewType() === 'Tabular');
   isChart = computed(() => this.filterState.viewType() === 'Chart');

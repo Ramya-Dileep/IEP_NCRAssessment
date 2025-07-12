@@ -68,8 +68,6 @@ popupClass = 'popup-wrapper open-left';
   ngOnInit(): void {
     // Initialize expansion state based on collapsed input
     this.userExpanded.set(!this.collapsed);
-
-    console.log('FILTERS:', this.filters);
     this.filters.forEach(f => {
       if (!f.control || !f.data?.length) {
         console.warn(`Missing setup for filter:`, f.label);
