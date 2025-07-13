@@ -57,7 +57,7 @@ export class ActivitiesTabulardataComponent implements OnInit, OnChanges {
 
   // Filter changes
   columns = [
-  { field: 'name', title: 'Name', width: 150 },
+  { field: 'name', title: 'Name', width: 120 },
   { field: 'username', title: 'Username', width: 120 },
   // { field: 'email', title: 'Email', width: 180 },
   { field: 'contract', title: 'Contract', width: 150 },
