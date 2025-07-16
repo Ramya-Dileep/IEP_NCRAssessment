@@ -50,23 +50,31 @@
   </div>
 </kendo-popup>
 
-<kendo-dialog *ngIf="isSaveFilterDialogVisible" (close)="isSaveFilterDialogVisible = false" title="Save Filter  Activities">
-  <div class="p-4">
-    <label for="filterName">Enter a filter name:</label>
-    <input
-      id="filterName"
-      [(ngModel)]="newFilterNameInput"
-      type="text"
-      class="k-textbox"
-      style="width: 100%; margin-top: 8px;"
-      placeholder="e.g. My Filter"
-    />
-  </div>
+<kendo-dialog *ngIf="isSaveFilterDialogVisible" (close)="isSaveFilterDialogVisible = false" title="Save Filter Activities">
+ <div class="p-4 horizontal-field">
+  <label for="filterName">Enter a filter name:</label>
+  <input
+    id="filterName"
+    [(ngModel)]="newFilterNameInput"
+    type="text"
+    class="k-textbox"
+    placeholder="e.g. My Filter"
+  />
+</div>
 
-  <kendo-dialog-actions>
-    <button kendoButton (click)="isSaveFilterDialogVisible = false">Cancel</button>
-    <button kendoButton style="border-radius: 0px" [disabled]="!newFilterNameInput.trim()" (click)="confirmSaveFilter()">Save</button>
-  </kendo-dialog-actions>
+<kendo-dialog-actions>
+  <button kendoButton (click)="isSaveFilterDialogVisible = false">Cancel</button>
+  <button
+    kendoButton
+    themeColor="primary"
+    class="green-save-btn"
+    [disabled]="!newFilterNameInput.trim()"
+    (click)="confirmSaveFilter()"
+  >
+    Save
+  </button>
+</kendo-dialog-actions>
+
 </kendo-dialog>
 
 

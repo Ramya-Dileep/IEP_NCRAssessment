@@ -1,7 +1,6 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  // width: 400px;
   width: 300px;
   background-color: white;
   transition: width 0.3s ease;
@@ -85,7 +84,7 @@
         background-color: white;
         color: black;
         border-color: #05322b;
-        border: 1px solid grey;
+        border: 1px solid lightgrey;
         border-radius: 4px;
         padding: 0px 6px;
       }
@@ -479,7 +478,7 @@
   font-size: 16px;
   font-family: calibri;
   font-weight: bold;
-  margin-left: 5px;
+  margin-left: 11px;
 }
  
 .filter-control {
@@ -495,7 +494,7 @@
   text-overflow: ellipsis;
   font-size: 11px;
   color: grey;
-  padding-left: 3px;
+  padding-left: 11px;
 }
  
 .multiselect-wrapper {
@@ -763,12 +762,71 @@
     color: white;
 }
 
-// ::ng-deep .popup-item:first-child {
-//   padding-top: 10px; // Adjust as needed
-// }
+
+::ng-deep .dialog-actions-right {
+  display: flex;
+  justify-content: flex-end; // ✅ Align to the right
+  padding-right: 16px;       // Optional: some spacing from edge
+}
+
+::ng-deep .dialog-actions-right.k-actions-stretched > * {
+    flex: 0 0 0%;
+}
+
+::ng-deep .dialog-actions-right1.k-actions-stretched > * {
+    flex: 0 0 0%;
+}
+
+::ng-deep .dialog-actions-right1 {
+  display: flex;
+  justify-content: space-evenly; // aligns buttons to the right
+  gap: 12px;                 // equal spacing between buttons
+}
 
 
 
+::ng-deep .small-ok-btn {
+  padding: 4px 16px;           
+  height: 28px;
+  font-size: 13px;
+  min-width: 80px;   
+}
+
+::ng-deep .filter-name-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+
+  label {
+    white-space: nowrap;
+    font-weight: 500;
+    font-size: 14px;
+    color: #333;
+  }
+
+  input.k-textbox {
+    flex: 1;
+    height: 20px;
+    font-size: 14px;
+    padding: 4px 8px;
+  }
+}
+
+::ng-deep .small-save-btn {
+  min-width: 150px;
+  height: 30px;
+  font-size: 13px;
+  background-color: #02A783 !important; /* ✅ green background */
+  color: white !important;
+  border: none;
+}
+
+::ng-deep .small-cancel-btn {
+  min-width: 150px;
+  height: 30px;
+  font-size: 13px;
+}
 
 
 

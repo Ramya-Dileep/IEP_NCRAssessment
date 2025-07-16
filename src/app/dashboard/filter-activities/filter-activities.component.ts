@@ -196,6 +196,8 @@ get loadFilterChildren() {
     }
   }
 
+  activeSubMenuLabel: string | null = null;
+
   onPopupItemClick(item: PopupItem): void {
     this.isThreeDotClick = false;
 

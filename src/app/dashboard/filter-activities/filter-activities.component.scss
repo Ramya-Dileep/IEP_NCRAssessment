@@ -364,6 +364,43 @@
     color: white;
 }
 
+.horizontal-field {
+  display: flex;
+  align-items: center;
+  gap: 10px; // spacing between label and input
+  padding: 0 10px;
+
+  label {
+    white-space: nowrap;
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  input.k-textbox {
+    flex: 1;
+    height: 20px;
+    font-size: 14px;
+    padding: 4px 8px;
+  }
+}
+
+::ng-deep kendo-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 0 16px 16px;
+}
+
+::ng-deep .green-save-btn {
+  background-color: #02A783 !important;
+  color: white !important;
+  border: none;
+  min-width: 70px;
+  height: 32px;
+  font-size: 13px;
+}
+
+
 
 
 

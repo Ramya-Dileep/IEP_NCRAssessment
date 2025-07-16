@@ -69,11 +69,17 @@
     </ol>
   </div>
 
- <kendo-dialog-actions>
-    <button style="width: 30px; height: 30px; " kendoButton (click)="isInstructionsDialogVisible = false" themeColor="primary">
-      OK
-    </button>
-  </kendo-dialog-actions>
+<kendo-dialog-actions class="dialog-actions-right">
+  <button
+    kendoButton
+    (click)="isInstructionsDialogVisible = false"
+    themeColor="primary"
+    class="small-ok-btn"
+  >
+    OK
+  </button>
+</kendo-dialog-actions>
+
 
 </kendo-dialog>
 
@@ -91,26 +97,27 @@
   </kendo-excelexport-column>
 </kendo-excelexport>
 
-<kendo-dialog  *ngIf="isSaveFilterDialogVisible" (close)="isSaveFilterDialogVisible = false" title="Save Advance Filter">
-  <div class="p-4">
+<kendo-dialog *ngIf="isSaveFilterDialogVisible" (close)="isSaveFilterDialogVisible = false" title="Save Advance Filter">
+  <div class="filter-name-inline">
     <label for="filterName">Enter a filter name:</label>
     <input
       id="filterName"
       [(ngModel)]="newFilterNameInput"
       type="text"
       class="k-textbox"
-      style="width: 100%; margin-top: 8px;"
       placeholder="e.g. My Quality Filter"
     />
   </div>
 
-  <kendo-dialog-actions>
-    <button kendoButton  style="width: 30px; height: 30px;" (click)="isSaveFilterDialogVisible = false">Cancel</button>
-    <button kendoButton style="width: 30px; height: 30px;" [disabled]="!newFilterNameInput.trim()" (click)="confirmSaveFilter()" themeColor="primary">
+  <kendo-dialog-actions  class="dialog-actions-right1">
+    <button kendoButton class="small-cancel-btn" (click)="isSaveFilterDialogVisible = false">Cancel</button>
+    <button kendoButton themeColor="primary" class="small-save-btn"
+      [disabled]="!newFilterNameInput.trim()" (click)="confirmSaveFilter()">
       Save
     </button>
   </kendo-dialog-actions>
 </kendo-dialog>
+
 
 
 

@@ -1,6 +1,5 @@
 <div class="maincontentheader">
 
-  @if (!fullscreenMode) {
     <div class="header">
       <div class="module">
         <span class="module-name">{{ moduleName }}</span>
@@ -139,13 +138,9 @@
         </button>
       }
     </div>
-  }
 
   @if (activeTab === 'NCR') {
 
-    @if (!fullscreenMode)
-    {
- 
     <div class="projectName" [title]="ProjectName">
       <span class="projectText">{{ ProjectName }}</span>
     </div>
@@ -160,7 +155,6 @@
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
-  }
 
     <app-filter-activities title="Filter Activities" (viewChanged)="onViewChanged($event)" [collapsed]="fullscreenMode"></app-filter-activities>
 
