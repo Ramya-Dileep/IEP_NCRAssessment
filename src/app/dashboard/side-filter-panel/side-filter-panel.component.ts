@@ -500,26 +500,49 @@ applyFilter(): void {
     this.isThreeDotClick = !this.isThreeDotClick;
   }
 
-  // Handle popup item click
-  onPopupItemClick(item: PopupItem): void {
-    console.log('Popup clicked:', item.label);
-    this.isThreeDotClick = false;
+activeSubmenuItemLabel: string | null = null;
+loadFilterChildren: PopupItem[] = [];
 
-    switch (item.label) {
-      case 'Export Contracts':
-        this.exportContracts();
-        break;
-      case 'Save Filter':
-        this.newFilterNameInput = ''; // reset input
-      this.isSaveFilterDialogVisible = true; // open dialog
-        break;
-      case 'Instructions to Use':
-        this.showInstructionsDialog();
-        break;
-      default:
-        break;
-    }
+
+  // Handle popup item click
+onPopupItemClick(event: MouseEvent, item: PopupItem): void {
+  event.stopPropagation(); // ✅ prevent popup from closing
+
+  console.log('Popup clicked:', item.label);
+
+  switch (item.label) {
+    case 'Export Contracts':
+      this.exportContracts();
+      this.isThreeDotClick = false;
+      break;
+
+    case 'Save Filter':
+      this.newFilterNameInput = '';
+      this.isSaveFilterDialogVisible = true;
+      this.activeSubmenuItemLabel = null;
+      this.isThreeDotClick = false;
+      break;
+
+    case 'Instructions to Use':
+      this.showInstructionsDialog();
+      this.activeSubmenuItemLabel = null;
+      this.isThreeDotClick = false;
+      break;
+
+    case 'Load Filter':
+      // Just toggle submenu
+      this.activeSubmenuItemLabel =
+        this.activeSubmenuItemLabel === 'Load Filter' ? null : 'Load Filter';
+      break;
+
+    default:
+      this.activeSubmenuItemLabel = null;
+      this.isThreeDotClick = false;
+      break;
   }
+}
+
+
 
   // Click outside to close popup
   @HostListener('document:click', ['$event.target'])
@@ -544,11 +567,16 @@ saveFilter(): void {
 
   const loadFilterItem = this.popupItems.find(item => item.label === 'Load Filter');
   if (loadFilterItem) {
-    loadFilterItem.children = this.savedFilters.map(f => ({ label: f.name }));
+    loadFilterItem.children = this.savedFilters.map(f => ({
+      label: f.name,
+      values: f.values // preserve filter values here
+    }));
   }
 
   console.log(`✅ Saved new filter as "${newFilterName}"`, savedValues);
 }
+
+
 
 
 onItemClick(item: PopupItem): void {
@@ -653,6 +681,15 @@ confirmSaveFilter(): void {
   this.isSaveFilterDialogVisible = false;
   console.log(`✅ Saved filter as "${trimmedName}"`, savedValues);
 }
+
+onSubMenuItemClick(event: Event, item: PopupItem): void {
+  event.stopPropagation();
+  console.log('🔽 Submenu item clicked:', item.label);
+  this.onItemClick(item);
+  this.isThreeDotClick = false;
+  this.activeSubmenuItemLabel = '';
+}
+
 
 
 }

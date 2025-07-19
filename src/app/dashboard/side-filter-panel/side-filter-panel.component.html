@@ -20,7 +20,7 @@
   [anchor]="popupAnchor"
   [popupClass]="popupStyle"
 >
-  <div class="popup-item" *ngFor="let item of popupItems" (click)="onPopupItemClick(item)">
+  <div class="popup-item" *ngFor="let item of popupItems" (click)="onPopupItemClick($event, item)">
     <div class="popup-item-main1">
       <span class="material-icons-outlined parentIcon">{{ item.icon }}</span>
       <span class="label">{{ item.label }}</span>
@@ -32,13 +32,18 @@
   </div>
 
   <!-- Submenu -->
-  <div class="popup-submenu"
-    [ngClass]="popupClass.includes('open-left') ? 'popupSubMenuRight' : 'popupSubMenuLeft'"
-    *ngIf="item.children?.length">
-    <div class="popup-subitem" *ngFor="let child of item.children" (click)="onItemClick(child)">
-      {{ child.label }}
-    </div>
-    </div>
+<div class="popup-submenu"
+     *ngIf="activeSubmenuItemLabel === 'Load Filter' && item.label === 'Load Filter'"
+     [ngClass]="popupClass.includes('open-left') ? 'popupSubMenuRight' : 'popupSubMenuLeft'">
+  <div class="popup-subitem"
+       *ngFor="let child of item.children; let i = index"
+      (click)="onSubMenuItemClick($event, child)"
+>
+    {{ child.label }}
+  </div>
+</div>
+
+
   </div>
 
   <!-- Static info section: Uploaded Files -->

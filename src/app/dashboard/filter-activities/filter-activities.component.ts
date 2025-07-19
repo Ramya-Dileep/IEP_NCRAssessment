@@ -7,6 +7,7 @@ import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { FilterStateService } from '../../service/filter-state.service';
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
+import { ChangeDetectorRef } from '@angular/core';
 
 interface PopupItem {
   icon?: string;
@@ -45,7 +46,7 @@ popupClass = 'popup-wrapper open-left';
   // User's expand/collapse preference signal
   userExpanded = signal(true);
 
-  constructor(public filterState: FilterStateService) {
+  constructor(public filterState: FilterStateService, private cdr: ChangeDetectorRef) {
     // Keep userExpanded = false when collapsed is true
     effect(() => {
       if (this.collapsed) {
@@ -171,49 +172,101 @@ popupClass = 'popup-wrapper open-left';
 
   savedFilters: { name: string; values: any }[] = [];
 
-  popupItems: PopupItem[] = [
-  { icon: 'save', label: 'Save Filter' },
-  { icon: 'folder_open', label: 'Load Filter' }, // children dynamic
-  { icon: 'help_outline', label: 'Instructions to Use' }
-];
+//   popupItems: PopupItem[] = [
+//   { icon: 'save', label: 'Save Filter' },
+//   { icon: 'folder_open', label: 'Load Filter' }, // children dynamic
+//   { icon: 'help_outline', label: 'Instructions to Use' }
+// ];
 
-get loadFilterChildren() {
-  return this.savedFilters.map(filter => ({
-    label: filter.name,
-    filterKey: filter.name
-  }));
+get popupItems() {
+  return [
+    {
+      label: 'Save Filter',
+      icon: 'save',
+      action: () => this.openSaveFilterDialog()
+    },
+    {
+      label: 'Load Filter',
+      icon: 'folder_open',
+      children: this.loadFilterChildren
+    },
+    {
+      label: 'Instructions',
+      icon: 'info',
+      action: () => this.isInstructionsDialogVisible = true
+    }
+  ];
 }
+
+showSubMenu(label: string): void {
+  this.activeSubMenuLabel = label;
+  console.log('🟢 Submenu opened for:', label);
+
+  if (label === 'Load Filter') {
+    console.log('📋 Filters to show:', this.loadFilterChildren); // You already confirmed this prints correctly
+  }
+}
+
+
+
+
+openSaveFilterDialog(): void {
+  this.isSaveFilterDialogVisible = true;
+}
+
+loadFilterChildren: any[] = [];
+
+
 
 
   toggleThreeDotPopup(): void {
     this.isThreeDotClick = !this.isThreeDotClick;
   }
 
-  @HostListener('document:click', ['$event.target'])
-  onClickOutside(target: HTMLElement): void {
-    if (!this.popupAnchor?.nativeElement.contains(target)) {
-      this.isThreeDotClick = false;
-    }
+ @HostListener('document:click', ['$event.target'])
+onClickOutside(target: HTMLElement): void {
+  const clickedInside = this.popupAnchor?.nativeElement.contains(target);
+  if (!clickedInside) {
+    this.isThreeDotClick = false;
+    this.activeSubMenuLabel = null;
   }
+}
+
 
   activeSubMenuLabel: string | null = null;
 
-  onPopupItemClick(item: PopupItem): void {
-    this.isThreeDotClick = false;
-
-    switch (item.label) {
-      case 'Save Filter':
-        this.newFilterNameInput = '';
-        this.isSaveFilterDialogVisible = true;
-        break;
-      case 'Load Filter':
-        this.loadFilter();
-        break;
-      case 'Instructions to Use':
-        this.showInstructionsDialog();
-        break;
+onPopupItemClick(item: PopupItem): void {
+  if (item.label === 'Load Filter') {
+    if (this.savedFilters.length === 0) {
+      alert('No saved filters available.');
+      return;
     }
+
+    // Toggle submenu visibility
+    this.activeSubMenuLabel = this.activeSubMenuLabel === 'Load Filter' ? null : 'Load Filter';
+
+    // Don’t close popup yet
+    return;
   }
+
+  // For other actions, close popup
+  this.isThreeDotClick = false;
+  this.activeSubMenuLabel = null;
+
+  switch (item.label) {
+    case 'Save Filter':
+      this.newFilterNameInput = '';
+      this.isSaveFilterDialogVisible = true;
+      break;
+    case 'Instructions to Use':
+      this.showInstructionsDialog();
+      break;
+  }
+}
+
+
+
+
 
  saveFilter(): void {
   const values: any = {};
@@ -243,7 +296,9 @@ onItemClick(item: any): void {
   } else {
     console.warn('Saved filter not found:', item.filterKey);
   }
-  this.isThreeDotClick = false; // close popup after selecting
+  this.activeSubMenuLabel = null;
+  this.isThreeDotClick = false;
+ // close popup after selecting
 }
 
 
@@ -265,9 +320,12 @@ onItemClick(item: any): void {
   isSaveFilterDialogVisible = false;
   newFilterNameInput = '';
 
-  confirmSaveFilter(): void {
+confirmSaveFilter(): void {
   const trimmedName = this.newFilterNameInput.trim();
-  if (!trimmedName) return;
+  if (!trimmedName) {
+    console.warn('❌ Filter name is empty. Aborting.');
+    return;
+  }
 
   const values: any = {};
   this.filters.forEach(f => {
@@ -275,11 +333,48 @@ onItemClick(item: any): void {
     values[key] = f.control.value;
   });
 
+  const existingIndex = this.savedFilters.findIndex(f => f.name === trimmedName);
   const newFilter = { name: trimmedName, values };
-  this.savedFilters.push(newFilter);
 
-  console.log(`✅ Saved Filter as "${trimmedName}"`, newFilter);
+  if (existingIndex !== -1) {
+    this.savedFilters[existingIndex] = newFilter;
+    console.log(`🔁 Replaced filter "${trimmedName}"`);
+  } else {
+    this.savedFilters.push(newFilter);
+    console.log(`✅ Added filter "${trimmedName}"`);
+  }
+
+  // Rebuild loadFilterChildren cleanly
+  this.loadFilterChildren.length = 0;
+  this.loadFilterChildren = this.savedFilters.map(f => ({
+    label: f.name,
+    filterKey: f.name,
+    values: f.values
+  }));
+
+  console.log('✅ Saved Filters:', this.savedFilters);
+  console.log('📂 Load Filter Submenu:', this.loadFilterChildren);
+
   this.isSaveFilterDialogVisible = false;
+  this.newFilterNameInput = '';
+}
+
+
+
+
+
+onMainMenuClick(event: MouseEvent, item: any): void {
+  if (item.children || item.label === 'Load Filter') {
+    event.stopPropagation(); // 🛑 prevent popup from closing
+    this.showSubMenu(item.label);
+  } else {
+    item.action?.(); // Execute action for items without submenu
+  }
+}
+
+onSubMenuItemClick(event: MouseEvent, child: any): void {
+  event.stopPropagation();
+  this.onItemClick(child); // your existing filter-apply logic
 }
 
 }

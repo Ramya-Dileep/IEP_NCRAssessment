@@ -24,30 +24,33 @@
   [popupClass]="popupClass"
 >
   <!-- Main Menu Items -->
-  <div class="popup-item" *ngFor="let item of popupItems" (click)="onPopupItemClick(item)">
-    <div class="popup-item-main">
-      <span class="material-icons-outlined parentIcon">{{ item.icon }}</span>
-      <span class="label">{{ item.label }}</span>
+<div class="popup-item"
+     *ngFor="let item of popupItems"
+     (click)="onMainMenuClick($event, item)">
+  <div class="popup-item-main">
+    <span class="material-icons-outlined parentIcon">{{ item.icon }}</span>
+    <span class="label">{{ item.label }}</span>
 
-      <!-- Submenu Arrow -->
-      <span *ngIf="item.children?.length" class="material-icons expand-arrow">
-        chevron_right
-      </span>
+    <!-- Submenu Arrow -->
+    <span *ngIf="item.label === 'Load Filter' || item.children?.length"
+          class="material-icons expand-arrow">
+      chevron_right
+    </span>
+  </div>
+
+  <!-- 🧩 Submenu placed only inside Load Filter item -->
+  <div class="popup-submenu"
+       *ngIf="activeSubMenuLabel === 'Load Filter' && item.label === 'Load Filter'"
+       [ngClass]="popupClass.includes('open-left') ? 'popupSubMenuRight' : 'popupSubMenuLeft'">
+    <div class="popup-subitem"
+         *ngFor="let child of loadFilterChildren; let i = index"
+         (click)="onSubMenuItemClick($event, child)">
+      {{ child.label }}
     </div>
-
-    <!-- Submenu -->
-<div class="popup-submenu"
-     [ngClass]="popupClass.includes('open-left') ? 'popupSubMenuRight' : 'popupSubMenuLeft'"
-     *ngIf="item.label === 'Load Filter' ? loadFilterChildren.length : item.children?.length">
-
-  <div class="popup-subitem"
-       *ngFor="let child of (item.label === 'Load Filter' ? loadFilterChildren : item.children)"
-       (click)="onItemClick(child)">
-    {{ child.label }}
   </div>
 </div>
 
-  </div>
+
 </kendo-popup>
 
 <kendo-dialog *ngIf="isSaveFilterDialogVisible" (close)="isSaveFilterDialogVisible = false" title="Save Filter Activities">
