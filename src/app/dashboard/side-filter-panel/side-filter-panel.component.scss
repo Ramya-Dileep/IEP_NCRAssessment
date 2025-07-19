@@ -519,7 +519,7 @@
  
 .icon.arrow {
   cursor: pointer;
-  position: absolute;
+ margin-top: 16px;
   right: 6px;
   top: 50%;
   transform: translateY(-50%);
@@ -828,5 +828,81 @@
   font-size: 13px;
 }
 
+.custom-option-list {
+  background: transparent;
+  padding: 4px 0;
+  margin-top: 4px;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+  position: absolute;
+  left: 0;
+  z-index: 10;
+  color: black;
+  display: flex;
+  flex-direction: column; // ← this ensures vertical layout
+  align-items: flex-start;
+  display: inline-flex;
+}
 
+/* Top row containing values + icons */
+.filter-top-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap; // optional for responsiveness
+}
+
+.custom-option {
+  display: flex;
+  align-items: center;
+  padding: 4px 5px;
+  white-space: nowrap;
+  left: 0;                    /* Align to the left edge */
+  z-index: 10; 
+  font-size: 12px;
+}
+
+.option {
+  padding: 4px 8px;
+  cursor: pointer;
+  display: flex; // for checkbox + label alignment
+  align-items: center;
+  gap: 8px;
+  color: #333;
+
+  &:hover {
+    background-color: #f2f2f2;
+  }
+
+  &.selected {
+    font-weight: bold;
+  }
+}
+
+
+.multiselect-wrapper {
+  position: relative;
+  color: black;
+  flex-direction: column;
+  display: flex;
+  gap: 6px;
+
+  input[type="checkbox"] {
+  accent-color: #02A783; /* Green background */
+}
+
+}
+
+.filter-header-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.filter-label {
+  font-weight: bold;
+  flex: 1;
+}
 

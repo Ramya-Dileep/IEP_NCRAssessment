@@ -180,47 +180,55 @@
   </button>
 
   <!-- Multiselect Block (only visible when toggled) -->
-  <div class="filterWrapper" *ngIf="isAdvancedSearchVisible">
-<!-- Clear Filter link -->
-            <div class="clear-filter-text" (click)="clearAllFilters()">
-                Clear Filter
-            </div>
-            <div *ngFor="let item of advanceFilterItems; let i = index" class="filter-row" >
-                <label class="filter-label">{{ item.filterName }}</label>
- 
-                <div class="filter-control">
-                    <!-- Display selected items comma-separated -->
-                    <div class="selected-values" title="{{ advanceSelectedValues[item.propertyName].join(', ') }}">
-                    {{ advanceSelectedValues[item.propertyName].join(', ') || '' }}
-                    </div>
-                    <span
-                      class="material-symbols-outlined icon minus"
-                      *ngIf="advanceSelectedValues[item.propertyName]?.length"
-                      (click)="removeLastAddedFilter(item.propertyName)"
-                    >
-                      remove
-                    </span>
- 
-                     <div class="multiselect-wrapper">
-                        <!-- Custom Kendo Multiselect (hidden input, used only to select) -->
-                        <kendo-multiselect #multiSelect
-                        [data]="advanceFilterOptions[item.propertyName]"
-                        [(ngModel)]="advanceSelectedValues[item.propertyName]"
-                        [valuePrimitive]="true"
-                        [autoClose]="false"
-                         (valueChange)="applyFilter()"
-                        [popupSettings]="{ appendTo: 'component', popupClass: 'custom-multiselect-popup'  }"
-                        [tagMapper]="tagMapper"
-                        [allowCustom]="false"
-                        [checkboxes]="true"
-                        class="kendo-hidden"
-                        ></kendo-multiselect>                  
-                        <span class="material-symbols-outlined icon arrow" >expand_more</span>
-                     </div>
-                </div>
-            </div>
+<div class="filterWrapper" *ngIf="isAdvancedSearchVisible">
+  <!-- Clear Filter link -->
+  <div class="clear-filter-text" (click)="clearAllFilters()">Clear Filter</div>
+
+  <div *ngFor="let item of advanceFilterItems; let i = index" class="filter-row">
+    
+    <!-- ✅ Label + Minus + Expand Row -->
+    <div class="filter-header-row">
+      <label class="filter-label">{{ item.filterName }}</label>
+
+      <span
+        class="material-symbols-outlined icon minus"
+        *ngIf="advanceSelectedValues[item.propertyName]?.length"
+        (click)="removeLastAddedFilter(item.propertyName)">
+        remove
+      </span>
+
+      <span
+        class="material-symbols-outlined icon arrow"
+        (click)="toggleOptions(item.propertyName)">
+        {{ isExpanded1[item.propertyName] ? 'expand_less' : 'expand_more' }}
+      </span>
+    </div>
+
+    <!-- ✅ Selected values -->
+    <div class="selected-values" 
+    *ngIf="!isExpanded1[item.propertyName]"
+     title="{{ advanceSelectedValues[item.propertyName].join(', ') }}">
+      {{ advanceSelectedValues[item.propertyName].join(', ') || '' }}
+    </div>
+
+    <!-- ✅ Option list -->
+    <div class="multiselect-wrapper">
+      <div *ngIf="isExpanded1[item.propertyName]" class="custom-options-list">
+        <label *ngFor="let option of advanceFilterOptions[item.propertyName]" class="custom-option">
+          <input
+            type="checkbox"
+            [value]="option"
+            [checked]="advanceSelectedValues[item.propertyName].includes(option)"
+            (change)="onOptionChange($event, item.propertyName, option)" class="custom-checkbox"/>
+          {{ option }}
+        </label>
+      </div>
+    </div>
 
   </div>
+</div>
+
+
 </div>
 
 

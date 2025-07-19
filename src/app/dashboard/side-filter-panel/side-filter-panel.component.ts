@@ -690,6 +690,51 @@ onSubMenuItemClick(event: Event, item: PopupItem): void {
   this.activeSubmenuItemLabel = '';
 }
 
+isExpanded1: { [key: string]: boolean } = {};
+
+toggleOptions(propertyName: string): void {
+  this.isExpanded1[propertyName] = !this.isExpanded1[propertyName];
+}
+
+onOptionChange(event: Event, propertyName: string, option: any): void {
+  const isChecked = (event.target as HTMLInputElement).checked;
+
+  if (!this.advanceSelectedValues[propertyName]) {
+    this.advanceSelectedValues[propertyName] = [];
+  }
+
+  if (isChecked) {
+    this.advanceSelectedValues[propertyName].push(option);
+  } else {
+    this.advanceSelectedValues[propertyName] = this.advanceSelectedValues[propertyName].filter(
+      (val: any) => val !== option
+    );
+  }
+
+  this.applyFilter(); // optional
+}
+
+expanded: { [key: string]: boolean } = {};
+
+toggleExpand(property: string): void {
+  this.expanded[property] = !this.expanded[property];
+}
+
+toggleOption(property: string, value: any): void {
+  const values = this.advanceSelectedValues[property] || [];
+  const index = values.indexOf(value);
+
+  if (index === -1) {
+    values.push(value);
+  } else {
+    values.splice(index, 1);
+  }
+
+  this.advanceSelectedValues[property] = [...values];
+  this.applyFilter(); // optional
+}
+
+
 
 
 }
